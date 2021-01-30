@@ -12,7 +12,7 @@ class Node(tf.Module):
     def __init__(self, node_id=0, name=None, input_idxs=[]):
         super(Node, self).__init__(name=name)
         self.node_id = node_id
-        self.node_name = name
+        self.name = name
         self.input_idxs = tf.convert_to_tensor(input_idxs)
 
         with self.name_scope:
