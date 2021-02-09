@@ -11,15 +11,20 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ""
 import gym
 import time
 import narla
+import pprint
 import argparse
 import numpy as np
 import tensorflow as tf
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 plt.ion()
 
 # PARSE NARLA SPECIFIC COMMAND LINE ARGS
 args = narla.utils.parse_args()
+pp = pprint.PrettyPrinter()
+pp.pprint(vars(args))
 
 tf.random.set_seed(123)
 tf.keras.backend.set_floatx('float32')
@@ -33,12 +38,10 @@ state = tf.convert_to_tensor(
 
 # CREATE MAN WITH SETTINGS
 man = narla.man.MultiAgentNetwork(
+    args=args,
     input_size=4,
-    num_layers=args.num_layers,
-    num_nodes_per_layer=args.num_nodes,
-    use_bio_rewards=args.reward_type == 'bio'
 )
-mon = narla.Monitor(man, vis=args.plot)
+mon = narla.Monitor(man, args)
 
 for episode in range(1, args.num_episodes):
 
@@ -59,6 +62,9 @@ for episode in range(1, args.num_episodes):
         if done:
             mon.record()
             man.learn()
-            
-            if episode % args.update_every == 0:
-                mon.log_status()
+            mon.log_status()
+
+    if mon.solved():
+        break
+
+mon.save()

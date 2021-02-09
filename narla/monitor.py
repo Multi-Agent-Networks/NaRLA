@@ -5,6 +5,8 @@ Records reward progress for nodes in MAN graph
 Provides ability to live update plots
 """
 
+import os
+import time
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -13,11 +15,14 @@ import matplotlib.gridspec as gridspec
 from narla.settings import DISPLAY_REWARD_NAMES
 
 class Monitor:
-    def __init__(self, man, vis=False):
+    def __init__(self, man, args, file_name='results.csv'):
         self.man = man
-        self.vis = vis
+        self.args = args
+        self.file_name = file_name
         self.reward_names = []
         self.episode_rewards = []
+        self.start_time = time.time()
+        self.elapsed_times = []
 
         self._init_plot()
         self._init_storage()
@@ -47,7 +52,7 @@ class Monitor:
                 for reward_name in DISPLAY_REWARD_NAMES:
                     node_storage[reward_name] = []
 
-                if self.vis:
+                if self.args.plot:
                     # MAKE A LINE FOR EACH NODE IN EACH REWARD PLOT
                     lines = []
                     for i, reward_name in enumerate(self.reward_names):
@@ -72,15 +77,11 @@ class Monitor:
         self.reward_line : line
             Line object to update with task reward
         """
-        if not self.vis:
+        if not self.args.plot:
             return
 
-        if self.man.use_bio_rewards:
-            num_rewards = len(DISPLAY_REWARD_NAMES)
-            self.reward_names = sorted(DISPLAY_REWARD_NAMES.keys()) # 'Sparsity'
-        else:
-            num_rewards = 1
-            self.reward_names = ['fire_reward']
+        num_rewards = len(DISPLAY_REWARD_NAMES)
+        self.reward_names = sorted(DISPLAY_REWARD_NAMES.keys())
 
         self.fig = plt.figure(figsize=(10, 20), constrained_layout=True)
         self.axs = []
@@ -96,7 +97,7 @@ class Monitor:
             for col, reward_name in enumerate(self.reward_names):
 
                 ax = self.fig.add_subplot(spec[row, col])
-                ax.set_xlim(0, 1000); ax.set_ylim(-1, 1)
+                ax.set_xlim(0, 1000); ax.set_ylim(-3, 3)
                 layer_axs.append(ax)
 
                 if row == 0:
@@ -142,7 +143,11 @@ class Monitor:
                     )
 
     def log_status(self):
-        if self.vis:
+        self.elapsed_times.append(
+            time.time() - self.start_time
+        )
+
+        if self.args.plot:
             self.plot()
 
             self.reward_line.set_data(
@@ -153,8 +158,26 @@ class Monitor:
             self.fig.canvas.draw()
             self.fig.canvas.flush_events()
 
-        print(
-            f'Episode: {len(self.episode_rewards)}\
-            25 Avg: {np.mean(self.episode_rewards[-25:])}\
-            Best: {np.max(self.episode_rewards)}'
-        )
+        if self.args.verbose and len(self.episode_rewards) % self.args.log_every == 0:
+            print(
+                f'Episode: {len(self.episode_rewards)}',
+                f'25 Avg: {np.mean(self.episode_rewards[-self.args.log_every:])}',
+                f'Best: {np.max(self.episode_rewards)}',
+                'Elapsed time:', round(self.elapsed_times[-1], 2),
+            )
+
+    def save(self):
+        results = vars(self.args)
+        results['Rewards'] = self.episode_rewards
+        results['Episode'] = list(range(len(self.episode_rewards)))
+        results['Elapsed Times'] = self.elapsed_times
+
+        df = pd.DataFrame(results).drop(columns=['plot', 'log_every', 'verbose'])
+
+        if os.path.isfile(self.file_name):
+            df.to_csv(self.file_name, mode='a', header=False)
+        else:
+            df.to_csv(self.file_name)
+
+    def solved(self):
+        return np.mean(self.episode_rewards[-self.args.log_every:]) > 150
