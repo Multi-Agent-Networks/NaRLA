@@ -30,11 +30,15 @@ def parse_args():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--plot', action='store_true')
-    parser.add_argument('--update_every', type=int, default=25)
-    parser.add_argument('--num_episodes', type=int, default=100000)
+    parser.add_argument('--verbose', action='store_true')
+    parser.add_argument('--repeat_num', type=int, default=0)
+    parser.add_argument('--num_episodes', type=int, default=50000)
 
     parser.add_argument('--num_nodes', type=int, default=15)
     parser.add_argument('--num_layers', type=int, default=2)
-    parser.add_argument('--reward_type', default='task', choices=['all','task','bio','bio_then_all'])
+    parser.add_argument('--receptive_window', type=int, default=1)
+
+    parser.add_argument('--log_every', type=int, default=25)
+    parser.add_argument('--reward_type', default='task', choices=['task','bio'])
 
     return parser.parse_args()
