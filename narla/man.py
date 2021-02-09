@@ -9,31 +9,35 @@ Train each agent in the network with computed reward signals
 import numpy as np
 import tensorflow as tf
 from .layer import Layer
+from .settings import DISPLAY_REWARD_NAMES
 
 class MultiAgentNetwork:
-    def __init__(self, input_size, num_layers=3, num_nodes_per_layer=10, use_bio_rewards=True):
+    def __init__(self, args, input_size):
         self.layers = []
-        self.num_layers = num_layers
+        self.num_layers = args.num_layers
         self.input_size = prev_layer_size = input_size
-        self.architecture = [num_nodes_per_layer]*(num_layers - 1) + [1]
-        self.use_bio_rewards = use_bio_rewards
+        self.architecture = [args.num_nodes]*(args.num_layers - 1) + [1]
+        self.use_bio_rewards = args.reward_type == 'bio'
         self.sparsity_goal   = 0.2
 
-        self.fire_s = 1. / num_nodes_per_layer
-        self.pred_s = 1. / num_nodes_per_layer
-        self.sparse_s = 1. / num_nodes_per_layer
+        self.fire_s = 1. #/ num_nodes_per_layer
+        self.pred_s = 1. #/ num_nodes_per_layer
+        self.sparse_s = 1. #/ num_nodes_per_layer
+        self.trace_s = 1.
+
+        self.gamma = tf.constant(.99)
 
         for layer_id, num_nodes in enumerate(self.architecture):
             cur_layer = Layer(
-                num_nodes=num_nodes,
+                num_nodes=args.num_nodes,
                 layer_id=layer_id,
                 prev_layer_size=prev_layer_size,
-                start_or_end_layer=layer_id == 0 or (layer_id+1) == num_layers,
-                w=3,
+                start_or_end_layer=layer_id == 0 or (layer_id+1) == args.num_layers,
+                w=args.receptive_window,
             )
 
             self.layers.append(cur_layer)
-            prev_layer_size = num_nodes
+            prev_layer_size = args.num_nodes
 
         self.reset()
         self.layer_connectivity = [
@@ -82,27 +86,51 @@ class MultiAgentNetwork:
         self.rewards.append(R)
 
     def discount_rewards(self):
-        sum_reward = 0
-        discnt_rewards = []
+        discounted_rewards = []
+        for layer in self.layers:
+            layer_rewards = []
+            layer_sum_r = tf.zeros((1, layer.num_nodes))
 
-        for r in self.rewards[::-1]:
-            sum_reward = r + .99*sum_reward
-            discnt_rewards.insert(0, sum_reward)
+            for sample_i in range(len(self.rewards)-1, -1, -1):
 
-        if len(discnt_rewards) > 3:
-            discnt_rewards = np.array(discnt_rewards)
-            discnt_rewards = (discnt_rewards - discnt_rewards.mean()) / discnt_rewards.std()
-            discnt_rewards = discnt_rewards.tolist()
+                reward = self.rewards[sample_i]
+                sample_r = tf.ones((1, layer.num_nodes)) * reward
 
-        self.returns = discnt_rewards# [::-1]
+                # USE BIO REWARDS ; ADD TO TOTAL
+                if self.use_bio_rewards:
+                    pred_r = layer.bio_rewards['pred_reward'][sample_i]
+                    fire_r = layer.bio_rewards['fire_reward'][sample_i]
+                    trace_r = layer.bio_rewards['trace_reward'][sample_i]
+                    sparse_r = layer.bio_rewards['sparse_reward'][sample_i]
+                    # print(fire_r + pred_r + sparse_r + trace_r)
+                    sample_r = fire_r + pred_r + sparse_r + trace_r + reward
+
+                # DISCOUNT REWARDS
+                layer_sum_r = sample_r + self.gamma * layer_sum_r
+                layer_rewards.insert(0, layer_sum_r)
+
+            layer_rewards = tf.concat(
+                layer_rewards, axis=0
+            )
+
+            # NORMALIZE REWARDS
+            if layer_rewards.shape[0] > 3:
+                mean = tf.reduce_mean(layer_rewards, axis=0, keepdims=True)
+                std  = tf.math.reduce_std(layer_rewards, axis=0, keepdims=True)
+
+                layer_rewards = (layer_rewards - mean) / std
+
+            discounted_rewards.append(layer_rewards)
+
+        return discounted_rewards
 
     def learn(self):
-        self.discount_rewards()
+        returns = self.discount_rewards()
 
         cummulative_gradients = self._compute_backward(
-            self.layer_inputs,
-            self.layer_outputs,
-            self.returns
+            all_layer_inputs=self.layer_inputs,
+            all_layer_outputs=self.layer_outputs,
+            all_returns=returns
         )
 
         for layer, grads in zip(self.layers, cummulative_gradients):
@@ -112,7 +140,7 @@ class MultiAgentNetwork:
         return cummulative_gradients
 
     def _compute_backward(self, all_layer_inputs, all_layer_outputs, all_returns):
-        num_samples = len(self.returns)
+        num_samples = len(all_returns[0])
 
         cummulative_gradients = []
         for layer in self.layers:
@@ -124,25 +152,24 @@ class MultiAgentNetwork:
             range(num_samples),
             all_layer_inputs,
             all_layer_outputs,
-            all_returns,
         )
 
-        for sample_i, layer_inputs, layer_outputs, reward in zipped_up_1:
+        for sample_i, layer_inputs, layer_outputs in zipped_up_1:
 
             zipped_up_2 = zip(
                 range(self.num_layers),
                 self.layers,
                 layer_inputs,
                 layer_outputs,
+                all_returns,
             )
 
-            for layer_idx, layer, layer_input, layer_output in zipped_up_2:
+            for layer_idx, layer, layer_input, layer_output, layer_returns in zipped_up_2:
 
-                rewards = tf.ones_like(layer_output) * reward
-                if self.use_bio_rewards:
-                    pred_r = layer.bio_rewards['pred_reward'][sample_i]
-                    fire_r = layer.bio_rewards['fire_reward'][sample_i]
-                    rewards += fire_r + pred_r
+                rewards = tf.expand_dims(
+                    tf.gather(layer_returns, sample_i),
+                    axis=0
+                )
 
                 layer_losses, layer_grads = layer.learn(
                     layer_input=layer_input,
@@ -165,6 +192,7 @@ class MultiAgentNetwork:
         firing_reward = []
         sparsity_reward = []
         prediction_reward = []
+        activity_trace_reward = []
 
         zipped_up = zip(
             self.layers,
@@ -177,6 +205,22 @@ class MultiAgentNetwork:
         for i, (layer, inputs, outputs, con) in enumerate(zipped_up):
             on_first_layer = i == 0
             on_last_layer  = i == (self.num_layers - 1)
+
+            # ACTIVITY TRACE
+            if len(layer.bio_rewards['fire_reward']) == 0:
+                trace = tf.zeros_like(outputs)
+            else:
+                trace = tf.abs(
+                    tf.reduce_mean(
+                        tf.concat(
+                            layer.bio_rewards['fire_reward'],
+                            axis=0
+                        ), axis=0, keepdims=True
+                    ) - .5
+                )
+                trace = -1746463 + (0.9256812 - -1746463)/(1 + (trace/236.1357)**2.160334)
+
+            activity_trace_reward.append(trace)
 
             if not on_first_layer:
                 # CALCULATE PREDICTION REWARD
@@ -203,7 +247,7 @@ class MultiAgentNetwork:
                 elif sparsity_error == 0:
                     sparsity_rewards = tf.abs(sparse_rewards) * self.sparsity_goal
 
-                sparsity_reward.append(sparse_rewards)
+                sparsity_reward.append(sparsity_rewards)
 
                 firing_reward.append(outputs)
 
@@ -216,12 +260,14 @@ class MultiAgentNetwork:
             firing_reward,
             prediction_reward,
             sparsity_reward,
+            activity_trace_reward,
         )
 
         # DISTRIBUTE BIO REWARDS TO LAYERS
-        for layer, fire_r, pred_r, sparse_r in zipped_up:
+        for layer, fire_r, pred_r, sparse_r, trace_r in zipped_up:
             layer.store_bio_reward(
                 fire_reward=self.fire_s * fire_r,
                 pred_reward=self.pred_s * pred_r,
                 sparse_reward=self.sparse_s * sparse_r,
+                trace_reward=self.trace_s * trace_r,
             )

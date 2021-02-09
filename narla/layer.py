@@ -60,6 +60,15 @@ class Layer:
         for k,r in kwargs.items():
             self.bio_rewards[k].append(r)
 
+        self.bio_rewards['all_bio'].append(
+            tf.reduce_mean(
+                tf.concat(
+                    list(kwargs.values()),
+                    axis=0
+                ), axis=0, keepdims=True
+            )
+        )
+
     def reset(self):
         self.bio_rewards = {
             k:[] for k in DISPLAY_REWARD_NAMES
@@ -117,8 +126,8 @@ class Layer:
                 )
 
                 _, prob = node(x)
-                action = tf.gather_nd(layer_output, [0, i])
                 reward = tf.gather_nd(rewards, [0, i])
+                action = tf.gather_nd(layer_output, [0, i])
                 loss = utils.pg_action_loss(prob, action, reward)
 
             layer_losses += loss
