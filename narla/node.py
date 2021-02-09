@@ -17,7 +17,7 @@ class Node(tf.Module):
 
         with self.name_scope:
             self.layers = [
-                tf.keras.layers.Dense(128),
+                tf.keras.layers.Dense(32),
                 tf.keras.layers.LeakyReLU(),
                 tf.keras.layers.Dense(
                     2, activation='softmax'
