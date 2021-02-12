@@ -23,7 +23,7 @@ random.shuffle(params)
 
 pbar             = tqdm(total=len(params))
 current_jobs     = []
-template_command = 'python main.py --repeat_num {} --reward_type {} --num_layers {} --num_nodes {} --verbose'
+template_command = '/home/jott1/tf2_env/bin/python3 main.py --repeat_num {} --reward_type {} --num_layers {} --num_nodes {} --verbose'
 
 while params:
     # RUN JOBS WHILE NOT AT LIMIT

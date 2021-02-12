@@ -29,7 +29,7 @@ class MultiAgentNetwork:
 
         for layer_id, num_nodes in enumerate(self.architecture):
             cur_layer = Layer(
-                num_nodes=args.num_nodes,
+                num_nodes=num_nodes,
                 layer_id=layer_id,
                 prev_layer_size=prev_layer_size,
                 start_or_end_layer=layer_id == 0 or (layer_id+1) == args.num_layers,
