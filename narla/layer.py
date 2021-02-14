@@ -14,33 +14,20 @@ from .settings import DISPLAY_REWARD_NAMES
 
 
 class Layer:
-    def __init__(self, num_nodes=1, layer_id=0, prev_layer_size=1, start_or_end_layer=False, w=3):
+    def __init__(self, num_nodes=1, layer_id=0, connectivity=[]):
         self.num_nodes = num_nodes
         self.layer_id = layer_id
         self.layer_name = f'Layer{layer_id}'
         self.nodes = []
         self.layer_opts  = []
 
-        connectivity = np.zeros((num_nodes, prev_layer_size))
-        prev_layer_idxs = np.arange(prev_layer_size)
-
         for node_id in range(num_nodes):
-
-            # DETERMINE RECEPTIVE FIELD FROM INPUT SHAPE
-            s_idx = max(node_id-w, 0)
-            e_idx = min(node_id+w+1, prev_layer_size)
-
-            input_idxs = prev_layer_idxs[s_idx:e_idx]
-            if start_or_end_layer:
-                input_idxs = prev_layer_idxs
-
-            connectivity[node_id, input_idxs] = 1
 
             self.nodes.append(
                 Node(
                     node_id=node_id,
                     name=f'l{layer_id}_n{node_id}',
-                    input_idxs=input_idxs,
+                    input_idxs=np.argwhere(connectivity[node_id,:] == 1).squeeze(),
                 )
             )
             self.layer_opts.append(
@@ -49,10 +36,6 @@ class Layer:
                     # clipvalue=0.5
                 )
             )
-        self.connectivity = tf.convert_to_tensor(
-            connectivity,
-            dtype=tf.float32
-        )
 
         self.reset()
 

@@ -8,6 +8,7 @@ Train each agent in the network with computed reward signals
 
 import numpy as np
 import tensorflow as tf
+from . import utils
 from .layer import Layer
 from .settings import DISPLAY_REWARD_NAMES
 
@@ -19,6 +20,7 @@ class MultiAgentNetwork:
         self.architecture = [args.num_nodes]*(args.num_layers - 1) + [1]
         self.use_bio_rewards = args.reward_type == 'bio'
         self.sparsity_goal   = 0.2
+        self.layer_connectivity = []
 
         self.fire_s = 1. #/ num_nodes_per_layer
         self.pred_s = 1. #/ num_nodes_per_layer
@@ -28,21 +30,23 @@ class MultiAgentNetwork:
         self.gamma = tf.constant(.99)
 
         for layer_id, num_nodes in enumerate(self.architecture):
+            connectivity = utils.create_connectivity_matrix(num_nodes, prev_layer_size)
+            if args.num_layers == 1 or (layer_id+1) == args.num_layers:
+                connectivity[:,:] = 1
+
             cur_layer = Layer(
                 num_nodes=num_nodes,
                 layer_id=layer_id,
-                prev_layer_size=prev_layer_size,
-                start_or_end_layer=layer_id == 0 or (layer_id+1) == args.num_layers,
-                w=args.receptive_window,
+                connectivity=connectivity,
             )
 
             self.layers.append(cur_layer)
+            self.layer_connectivity.append(
+                tf.convert_to_tensor(connectivity, dtype=tf.float32)
+            )
             prev_layer_size = args.num_nodes
 
         self.reset()
-        self.layer_connectivity = [
-            layer.connectivity for layer in self.layers
-        ]
 
     def reset(self):
         if hasattr(self, 'layer_inputs'):
@@ -77,7 +81,8 @@ class MultiAgentNetwork:
         layer_tensors = [x]
 
         for i, layer in enumerate(self.layers):
-            x = layer(x)
+            x = tf.clip_by_value(
+                layer(x), -1, 1)
             layer_tensors.append(x)
 
         return layer_tensors
