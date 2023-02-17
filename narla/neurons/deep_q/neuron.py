@@ -4,7 +4,7 @@ import torch
 import narla
 import numpy as np
 from typing import Tuple
-from narla.neurons import Neuron
+from narla.neurons import Neuron as BaseNeuron
 
 
 TAU = 0.005
@@ -14,13 +14,19 @@ EPSILON_END = 0.05
 EPSILON_DECAY = 1000
 
 
-class DeepQ(Neuron):
+class Neuron(BaseNeuron):
     def __init__(
         self,
-        network: narla.networks.Network,
+        observation_size: int,
+        number_of_actions: int,
         learning_rate: float = 1e-4
     ):
         super().__init__()
+
+        network = narla.neurons.deep_q.Network(
+            input_size=observation_size,
+            output_size=number_of_actions
+        ).to(narla.Settings.device)
 
         self._policy_network = network
         self._target_network = network.clone()
@@ -34,14 +40,14 @@ class DeepQ(Neuron):
             amsgrad=True
         )
 
-    def act(self, state: torch.Tensor) -> torch.Tensor:
+    def act(self, observation: torch.Tensor) -> torch.Tensor:
         eps_threshold = EPSILON_END + (EPSILON_START - EPSILON_END) * np.exp(-1. * self._number_of_steps / EPSILON_DECAY)
         self._number_of_steps += 1
 
         if np.random.rand() > eps_threshold:
 
             with torch.no_grad():
-                output = self._policy_network(state)
+                output = self._policy_network(observation)
                 action = output.max(1)[1].view(1, 1)
 
         else:
@@ -50,6 +56,11 @@ class DeepQ(Neuron):
                 device=narla.Settings.device,
                 dtype=torch.long
             )
+
+        self._history.record(
+            observation=observation,
+            action=action,
+        )
 
         return action
 

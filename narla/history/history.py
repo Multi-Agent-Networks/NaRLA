@@ -7,6 +7,9 @@ class History:
     def __init__(self):
         self._history: Dict[str, List[torch.Tensor | float]] = {}
 
+    def clear(self):
+        self._history: Dict[str, List[torch.Tensor | float]] = {}
+
     def get(self, key: str) -> list:
         """
         Access an element from the History

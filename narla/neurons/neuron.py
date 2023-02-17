@@ -12,7 +12,7 @@ class Neuron:
         self._history = narla.history.History()
         self._environment: narla.environments.Environment = None
 
-    def act(self, state: torch.Tensor) -> torch.Tensor:
+    def act(self, observation: torch.Tensor) -> torch.Tensor:
         pass
 
     @property
