@@ -36,5 +36,5 @@ class Environment:
     def state_size(self) -> int:
         pass
 
-    def step(self, action) -> Tuple[torch.Tensor, torch.Tensor, bool]:
+    def step(self, action: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, bool]:
         pass

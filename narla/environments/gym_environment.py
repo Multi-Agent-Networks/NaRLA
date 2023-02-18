@@ -45,8 +45,8 @@ class GymEnvironment(Environment):
 
         return observation.shape[-1]
 
-    def step(self, action) -> Tuple[torch.Tensor, torch.Tensor, bool]:
-        observation, reward, terminated, truncated, info = self._gym_environment.step(action)
+    def step(self, action: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, bool]:
+        observation, reward, terminated, truncated, info = self._gym_environment.step(action.item())
 
         observation = self._cast_observation(observation)
         reward = self._cast_reward(reward)

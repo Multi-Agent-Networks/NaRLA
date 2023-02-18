@@ -21,7 +21,10 @@ class Neuron(BaseNeuron):
         number_of_actions: int,
         learning_rate: float = 1e-4
     ):
-        super().__init__()
+        super().__init__(
+            observation_size=observation_size,
+            number_of_actions=number_of_actions
+        )
 
         network = narla.neurons.deep_q.Network(
             input_size=observation_size,
@@ -52,7 +55,7 @@ class Neuron(BaseNeuron):
 
         else:
             action = torch.tensor(
-                data=[[self.environment.action_space.sample()]],
+                data=[[np.random.randint(0, self.number_of_actions)]],
                 device=narla.Settings.device,
                 dtype=torch.long
             )

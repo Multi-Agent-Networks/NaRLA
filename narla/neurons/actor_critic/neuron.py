@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import torch
 import narla
-import numpy as np
-from typing import Tuple
 from narla.neurons import Neuron as BaseNeuron
 
 
@@ -17,7 +15,10 @@ class Neuron(BaseNeuron):
         number_of_actions: int,
         learning_rate: float = 1e-4
     ):
-        super().__init__()
+        super().__init__(
+            observation_size=observation_size,
+            number_of_actions=number_of_actions
+        )
 
         self._network = narla.neurons.actor_critic.Network(
             input_size=observation_size,
@@ -76,7 +77,7 @@ class Neuron(BaseNeuron):
 
         self._history.clear()
 
-    def get_returns(self) -> Tuple[torch.Tensor, ...]:
+    def get_returns(self) -> torch.Tensor:
         rewards = self._history.get("reward")
 
         returns = []
