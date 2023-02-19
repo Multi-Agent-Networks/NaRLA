@@ -1,4 +1,5 @@
 import torch
+import narla
 import random
 from typing import Dict, List
 
@@ -27,8 +28,20 @@ class History:
         for key, value in kwargs.items():
             if key not in self._history:
                 self._history[key] = []
+                if key == narla.history.saved_data.NEXT_OBSERVATION:
+                    self._history[key] = [None]
 
-            self._history[key].append(value)
+            elif key == narla.history.saved_data.OBSERVATION:
+                self.record(**{
+                    narla.history.saved_data.NEXT_OBSERVATION: value
+                })
+
+            if key == narla.history.saved_data.NEXT_OBSERVATION:
+                self._history[narla.history.saved_data.NEXT_OBSERVATION][-1] = value
+                self._history[narla.history.saved_data.NEXT_OBSERVATION].append(None)
+
+            else:
+                self._history[key].append(value)
 
     def sample(self, names: List[str], sample_size: int, from_most_recent: int = 10_000) -> List[List[torch.Tensor]]:
         sample = []
