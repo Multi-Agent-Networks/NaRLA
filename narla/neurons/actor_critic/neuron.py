@@ -9,6 +9,11 @@ GAMMA = 0.99
 
 
 class Neuron(BaseNeuron):
+    """
+    The ActorCritic Neuron is based on this `PyTorch example`_
+
+    .. _PyTorch example: https://github.com/pytorch/examples/blob/main/reinforcement_learning/actor_critic.py
+    """
     def __init__(
         self,
         observation_size: int,
@@ -52,8 +57,8 @@ class Neuron(BaseNeuron):
         policy_losses = []
 
         returns = self.get_returns()
-        state_values = self._history.get("state_value")
-        log_probabilities = self._history.get("log_probability")
+        state_values = self._history.get(narla.history.saved_data.STATE_VALUE)
+        log_probabilities = self._history.get(narla.history.saved_data.LOG_PROBABILITY)
 
         for return_value, state_value, log_probability in zip(returns, state_values, log_probabilities):
             advantage = return_value - state_value
@@ -78,7 +83,7 @@ class Neuron(BaseNeuron):
         self._history.clear()
 
     def get_returns(self) -> torch.Tensor:
-        rewards = self._history.get("reward")
+        rewards = self._history.get(narla.history.reward_types.TASK_REWARD)
 
         returns = []
         return_value = 0

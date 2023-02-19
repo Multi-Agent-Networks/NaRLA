@@ -110,8 +110,14 @@ class Neuron(BaseNeuron):
         self.update_target_network()
 
     def sample_history(self) -> Tuple[torch.Tensor, ...]:
-        observations, actions, rewards, next_observations = self._history.sample(
-            names=["observation", "action", "reward", "next_observation"],
+        observations, actions, rewards, next_observations, terminated = self._history.sample(
+            names=[
+                narla.history.saved_data.OBSERVATION,
+                narla.history.saved_data.ACTION,
+                narla.history.reward_types.TASK_REWARD,
+                narla.history.saved_data.NEXT_OBSERVATION,
+                narla.history.saved_data.TERMINATED
+            ],
             sample_size=narla.Settings.batch_size
         )
 
@@ -120,12 +126,12 @@ class Neuron(BaseNeuron):
         reward_batch = torch.cat(rewards)
 
         non_final_next_states = torch.cat([
-            observation for observation in next_observations
-            if observation is not None
+            observation for observation, done in zip(next_observations, terminated)
+            if not done
         ])
         non_final_mask = torch.tensor(
             data=[
-                observation is not None for observation in next_observations
+                not done for done in terminated
             ],
             device=narla.Settings.device,
             dtype=torch.bool
