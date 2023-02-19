@@ -29,11 +29,11 @@ class Environment:
 
         return reward
 
-    def reset(self):
+    @property
+    def observation_size(self) -> int:
         pass
 
-    @property
-    def state_size(self) -> int:
+    def reset(self):
         pass
 
     def step(self, action: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, bool]:

@@ -15,6 +15,11 @@ EPSILON_DECAY = 1000
 
 
 class Neuron(BaseNeuron):
+    """
+    The DeepQ Neuron is based on this `PyTorch example`_
+
+    .. _PyTorch example: https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
+    """
     def __init__(
         self,
         observation_size: int,

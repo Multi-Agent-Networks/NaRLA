@@ -33,20 +33,21 @@ class GymEnvironment(Environment):
 
         return gym_environment
 
+    @property
+    def observation_size(self) -> int:
+        observation = self.reset()
+
+        return observation.shape[-1]
+
     def reset(self) -> torch.Tensor:
         observation, info = self._gym_environment.reset()
         observation = self._cast_observation(observation)
 
         return observation
 
-    @property
-    def state_size(self) -> int:
-        observation = self.reset()
-
-        return observation.shape[-1]
-
     def step(self, action: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, bool]:
-        observation, reward, terminated, truncated, info = self._gym_environment.step(action.item())
+        action = int(action.item())
+        observation, reward, terminated, truncated, info = self._gym_environment.step(action)
 
         observation = self._cast_observation(observation)
         reward = self._cast_reward(reward)
