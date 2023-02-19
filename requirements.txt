@@ -1,0 +1,5 @@
+torch~=1.12.1
+typing~=3.7.4.3
+NaRLA~=0.1.dev0
+numpy~=1.22.4
+gymnasium~=0.27.1
