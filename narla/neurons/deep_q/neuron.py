@@ -34,7 +34,7 @@ class Neuron(BaseNeuron):
         network = narla.neurons.deep_q.Network(
             input_size=observation_size,
             output_size=number_of_actions
-        ).to(narla.Settings.device)
+        ).to(narla.settings.device)
 
         self._policy_network = network
         self._target_network = network.clone()
@@ -61,7 +61,7 @@ class Neuron(BaseNeuron):
         else:
             action = torch.tensor(
                 data=[[np.random.randint(0, self.number_of_actions)]],
-                device=narla.Settings.device,
+                device=narla.settings.device,
                 dtype=torch.long
             )
 
@@ -73,7 +73,7 @@ class Neuron(BaseNeuron):
         return action
 
     def learn(self):
-        if len(self._history) < narla.Settings.batch_size:
+        if len(self._history) < narla.settings.batch_size:
             return
 
         state_batch, action_batch, reward_batch, non_final_next_states, non_final_mask = self.sample_history()
@@ -86,7 +86,7 @@ class Neuron(BaseNeuron):
         # Expected values of actions for non_final_next_states are computed based on the "older" target_net; selecting
         # their best reward with max(1)[0]. This is merged based on the mask, such that we'll have either the expected
         # state value or 0 in case the state was final.
-        next_state_values = torch.zeros(narla.Settings.batch_size, device=narla.Settings.device)
+        next_state_values = torch.zeros(narla.settings.batch_size, device=narla.settings.device)
 
         with torch.no_grad():
             next_state_values[non_final_mask] = self._target_network(non_final_next_states).max(1)[0]
@@ -118,7 +118,7 @@ class Neuron(BaseNeuron):
                 narla.history.saved_data.NEXT_OBSERVATION,
                 narla.history.saved_data.TERMINATED
             ],
-            sample_size=narla.Settings.batch_size
+            sample_size=narla.settings.batch_size
         )
 
         observation_batch = torch.cat(observations)
@@ -133,7 +133,7 @@ class Neuron(BaseNeuron):
             data=[
                 not done for done in terminated
             ],
-            device=narla.Settings.device,
+            device=narla.settings.device,
             dtype=torch.bool
         )
 

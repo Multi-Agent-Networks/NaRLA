@@ -28,7 +28,7 @@ class Neuron(BaseNeuron):
         self._network = narla.neurons.actor_critic.Network(
             input_size=observation_size,
             output_size=number_of_actions
-        ).to(narla.Settings.device)
+        ).to(narla.settings.device)
 
         self._loss_function = torch.nn.SmoothL1Loss()
         self._optimizer = torch.optim.AdamW(
@@ -91,7 +91,7 @@ class Neuron(BaseNeuron):
             return_value = reward + GAMMA * return_value
             returns.insert(0, return_value)
 
-        returns = torch.tensor(returns, device=narla.Settings.device)
+        returns = torch.tensor(returns, device=narla.settings.device)
         returns = (returns - returns.mean()) / (returns.std() + 1e-7)
 
         return returns

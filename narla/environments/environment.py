@@ -19,13 +19,13 @@ class Environment:
 
     @staticmethod
     def _cast_observation(observation: np.ndarray) -> torch.Tensor:
-        observation = torch.tensor([observation.tolist()], device=narla.Settings.device)
+        observation = torch.tensor([observation.tolist()], device=narla.settings.device)
 
         return observation
 
     @staticmethod
     def _cast_reward(reward: float) -> torch.Tensor:
-        reward = torch.tensor([reward], device=narla.Settings.device)
+        reward = torch.tensor([reward], device=narla.settings.device)
 
         return reward
 

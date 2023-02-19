@@ -15,7 +15,7 @@ class ActionSpace:
     def sample(self) -> torch.Tensor:
         action = np.random.randint(self._number_of_actions)
 
-        return torch.tensor([action], device=narla.Settings.device)
+        return torch.tensor([action], device=narla.settings.device)
 
     @property
     def shape(self) -> Tuple[int, ...]:

@@ -15,7 +15,7 @@ class Layer:
         )
 
     def act(self, observation: torch.Tensor) -> torch.Tensor:
-        layer_output = torch.zeros((1, self.number_of_neurons), device=narla.Settings.device)
+        layer_output = torch.zeros((1, self.number_of_neurons), device=narla.settings.device)
         for index, neuron in enumerate(self._neurons):
             action = neuron.act(observation)
             layer_output[0, index] = action
@@ -31,7 +31,7 @@ class Layer:
         neurons: List[narla.neurons.Neuron] = []
         for _ in range(number_of_neurons):
             NeuronType = narla.neurons.deep_q.Neuron
-            if narla.Settings.neuron_type == narla.neurons.neuron_types.ACTOR_CRITIC:
+            if narla.settings.neuron_type == narla.neurons.neuron_types.ACTOR_CRITIC:
                 NeuronType = narla.neurons.actor_critic.Neuron
 
             neuron = NeuronType(

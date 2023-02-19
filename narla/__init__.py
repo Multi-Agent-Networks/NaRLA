@@ -8,4 +8,4 @@ from narla import multi_agent_network
 from itertools import count
 
 
-Settings = Settings().parse_args()
+settings = Settings().parse_args()
