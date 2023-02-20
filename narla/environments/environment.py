@@ -7,7 +7,7 @@ from typing import Tuple
 
 
 class Environment:
-    def __init__(self, name: str, render: bool = False):
+    def __init__(self, name: narla.environments.AvailableEnvironments, render: bool = False):
         self._name = name
         self._render = render
 

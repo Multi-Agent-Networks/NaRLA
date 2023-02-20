@@ -13,6 +13,7 @@ class MultiAgentNetwork:
         number_of_layers: int,
         number_of_neurons_per_layer: int
     ):
+        self._history = narla.history.History()
         self._layers: List[narla.multi_agent_network.Layer] = self._build_layers(
             observation_size=observation_size,
             number_of_actions=number_of_actions,
@@ -57,10 +58,17 @@ class MultiAgentNetwork:
 
         return layers
 
+    def distribute_to_layers(self, **kwargs):
+        for layer in self._layers:
+            layer.distribute_to_neurons(**kwargs)
+
+    @property
+    def history(self) -> narla.history.History:
+        return self._history
+
     def learn(self):
         for layer in self._layers:
             layer.learn()
 
     def record(self, **kwargs):
-        for layer in self._layers:
-            layer.record(**kwargs)
+        self._history.record(**kwargs)

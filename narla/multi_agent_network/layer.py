@@ -31,7 +31,7 @@ class Layer:
         neurons: List[narla.neurons.Neuron] = []
         for _ in range(number_of_neurons):
             NeuronType = narla.neurons.deep_q.Neuron
-            if narla.settings.neuron_type == narla.neurons.neuron_types.ACTOR_CRITIC:
+            if narla.settings.neuron_type == narla.neurons.AvailableNeurons.ACTOR_CRITIC:
                 NeuronType = narla.neurons.actor_critic.Neuron
 
             neuron = NeuronType(
@@ -42,6 +42,10 @@ class Layer:
 
         return neurons
 
+    def distribute_to_neurons(self, **kwargs):
+        for neuron in self._neurons:
+            neuron.record(**kwargs)
+
     def learn(self):
         for neuron in self._neurons:
             neuron.learn()
@@ -49,7 +53,3 @@ class Layer:
     @property
     def number_of_neurons(self) -> int:
         return len(self._neurons)
-
-    def record(self, **kwargs):
-        for neuron in self._neurons:
-            neuron.record(**kwargs)

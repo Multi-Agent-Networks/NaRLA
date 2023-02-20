@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import torch
 import narla
 import gymnasium as gym
@@ -6,7 +8,7 @@ from narla.environments import Environment
 
 
 class GymEnvironment(Environment):
-    def __init__(self, name: str, render: bool = False):
+    def __init__(self, name: narla.environments.AvailableEnvironments, render: bool = False):
         super().__init__(
             name=name,
             render=render
@@ -21,13 +23,13 @@ class GymEnvironment(Environment):
         )
 
     @staticmethod
-    def _build_gym_environment(name: str, render: bool) -> gym.Env:
-        render_mode = ""
+    def _build_gym_environment(name: narla.environments.AvailableEnvironments, render: bool) -> gym.Env:
+        render_mode = None
         if render:
             render_mode = "human"
 
         gym_environment = gym.make(
-            id=name,
+            id=name.value,
             render_mode=render_mode
         )
 
@@ -40,6 +42,8 @@ class GymEnvironment(Environment):
         return observation.shape[-1]
 
     def reset(self) -> torch.Tensor:
+        self._episode_reward = 0
+
         observation, info = self._gym_environment.reset()
         observation = self._cast_observation(observation)
 
@@ -48,6 +52,8 @@ class GymEnvironment(Environment):
     def step(self, action: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, bool]:
         action = int(action.item())
         observation, reward, terminated, truncated, info = self._gym_environment.step(action)
+
+        self._episode_reward += reward
 
         observation = self._cast_observation(observation)
         reward = self._cast_reward(reward)
