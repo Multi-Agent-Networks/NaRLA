@@ -1,3 +1,5 @@
+EPISODE_COUNT = "episode_count"
+
 ACTION = "action"
 OBSERVATION = "observation"
 NEXT_OBSERVATION = "next_observation"

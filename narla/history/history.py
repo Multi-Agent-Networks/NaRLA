@@ -1,11 +1,15 @@
+import gc
 import torch
 import narla
 import random
+import pandas as pd
 from typing import Dict, List
 
 
 class History:
-    def __init__(self):
+    def __init__(self, storage_size: int = 100_000):
+        self.storage_size = storage_size
+
         self._history: Dict[str, List[torch.Tensor | float]] = {}
 
     def clear(self):
@@ -43,6 +47,10 @@ class History:
             else:
                 self._history[key].append(value)
 
+            if len(self._history[key]) >= self.storage_size:
+                gc.collect()
+                torch.cuda.empty_cache()
+
     def sample(self, names: List[str], sample_size: int, from_most_recent: int = 10_000) -> List[List[torch.Tensor]]:
         sample = []
         for name in names:
@@ -52,6 +60,20 @@ class History:
             )
 
         return sample
+
+    def to_data_frame(self, keys: List[str] = ()) -> pd.DataFrame:
+        if len(keys) == 0:
+            keys = sorted(self._history.keys())
+
+        data = {
+            key: self.get(key) for key in keys
+        }
+        data_frame = pd.DataFrame(
+            data=data,
+            columns=keys
+        )
+
+        return data_frame
 
     def __len__(self) -> int:
         minimum_length = 1e10

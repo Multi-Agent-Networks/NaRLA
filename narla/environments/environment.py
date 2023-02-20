@@ -11,6 +11,7 @@ class Environment:
         self._name = name
         self._render = render
 
+        self._episode_reward = 0
         self._action_space: narla.environments.ActionSpace = None
 
     @property
@@ -28,6 +29,10 @@ class Environment:
         reward = torch.tensor([reward], device=narla.settings.device)
 
         return reward
+
+    @property
+    def episode_reward(self) -> float:
+        return self._episode_reward
 
     @property
     def observation_size(self) -> int:
