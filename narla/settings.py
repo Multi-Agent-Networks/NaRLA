@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import enum
 import tyro
 import narla
 import dataclasses
@@ -21,6 +22,9 @@ class Settings:
 
     environment: ALL_ENVIRONMENTS = GymEnvironments.CART_POLE
     """Environment to train on"""
+
+    gpu: int = 0
+    """GPU ID to run on"""
 
     maximum_episodes: int = 10_000
     """Total number of episodes to run for"""
@@ -49,10 +53,27 @@ class Settings:
     def as_dictionary(self) -> dict:
         return dataclasses.asdict(self)
 
+    def to_command_string(self):
+        arguments = []
+        for key, value in self.as_dictionary().items():
+            if isinstance(value, enum.Enum):
+                value = value.name
+
+            if type(value) is bool:
+                if value is False:
+                    continue
+                else:
+                    value = ""
+
+            arguments.append(f"--{key} {value}")
+
+        return " ".join(arguments)
+
 
 def parse_args() -> Settings:
     narla.settings = tyro.cli(Settings)
     prettyprinter.pprint(narla.settings.as_dictionary())
+    print(flush=True)
 
     if narla.settings.results_directory:
         # Creating <results_directory>/<trial_id>/
@@ -65,5 +86,8 @@ def parse_args() -> Settings:
             file=settings_file,
             settings=narla.settings
         )
+
+    if narla.settings.device == "cuda":
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(narla.settings.gpu)
 
     return narla.settings

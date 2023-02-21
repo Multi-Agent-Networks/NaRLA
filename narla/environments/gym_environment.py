@@ -58,4 +58,4 @@ class GymEnvironment(Environment):
         observation = self._cast_observation(observation)
         reward = self._cast_reward(reward)
 
-        return observation, reward, terminated
+        return observation, reward, terminated or truncated
