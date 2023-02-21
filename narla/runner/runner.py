@@ -34,6 +34,8 @@ class Runner:
 
     @staticmethod
     def _execute_job(settings: narla.Settings, gpu: int):
+        settings.gpu = gpu
+
         trial_path = narla.io.format_trial_path(settings)
         narla.io.make_directories(trial_path)
 

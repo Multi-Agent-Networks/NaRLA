@@ -10,6 +10,7 @@ from narla.io.history import (
 )
 from narla.io.settings import (
     format_trial_path,
+    load_runner_settings,
     load_settings,
     save_settings
 )
