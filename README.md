@@ -5,21 +5,6 @@ This repository accompanies the paper [*Giving Up Control: Neurons as Reinforcem
 ![network.png](figures%2Fnetwork.png)
 
 
-## Set up
-```bash 
-mkdir ~/python_environments
-cd ~/python_environments
-
-# Create a virtual environment
-python3.8 -m venv narla
-alias narla=~/python_environments/narla/bin/python3
-echo 'alias narla=~/python_environments/narla/bin/python3' >> ~/.bashrc
-
-# Download and install the NaRLA packages
-git clone git@github.com:Multi-Agent-Networks/NaRLA.git
-narla -m pip install -e NaRLA
-```
-
 ## Run main
 ```bash 
 narla main.py \

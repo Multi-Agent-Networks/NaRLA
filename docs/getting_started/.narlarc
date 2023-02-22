@@ -1,0 +1,8 @@
+# Add bash function to update all CAML libraries
+
+# Build the docs
+narla-build-docs () {
+  rm -rf docs/build/
+  narla -msphinx docs docs/build/html
+  firefox docs/build/html/index.html
+}
