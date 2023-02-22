@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>narla.neurons.deep_q.neuron &mdash; NaRLA  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/network.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">NaRLA: Neurons as Reinforcement Learning Agents</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started/installing.html">Installing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">NaRLA</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../narla/environments.html">narla.environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../narla/history.html">narla.history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../narla/multi_agent_network.html">narla.multi_agent_network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../narla/neurons.html">narla.neurons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../narla/runner.html">narla.runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../narla/settings.html">narla.Settings</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">NaRLA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">narla.neurons.deep_q.neuron</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for narla.neurons.deep_q.neuron</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">narla</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">narla.neurons</span> <span class="kn">import</span> <span class="n">Neuron</span> <span class="k">as</span> <span class="n">BaseNeuron</span>
+
+
+<span class="n">TAU</span> <span class="o">=</span> <span class="mf">0.005</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.99</span>
+<span class="n">EPSILON_START</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">EPSILON_END</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">EPSILON_DECAY</span> <span class="o">=</span> <span class="mi">1000</span>
+
+
+<div class="viewcode-block" id="Neuron"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.deep_q.Neuron">[docs]</a><span class="k">class</span> <span class="nc">Neuron</span><span class="p">(</span><span class="n">BaseNeuron</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The DeepQ Neuron is based on this `PyTorch example`_</span>
+
+<span class="sd">    .. _PyTorch example: https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">observation_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">number_of_actions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">observation_size</span><span class="o">=</span><span class="n">observation_size</span><span class="p">,</span>
+            <span class="n">number_of_actions</span><span class="o">=</span><span class="n">number_of_actions</span>
+        <span class="p">)</span>
+
+        <span class="n">network</span> <span class="o">=</span> <span class="n">narla</span><span class="o">.</span><span class="n">neurons</span><span class="o">.</span><span class="n">deep_q</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="n">observation_size</span><span class="p">,</span>
+            <span class="n">output_size</span><span class="o">=</span><span class="n">number_of_actions</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">narla</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_policy_network</span> <span class="o">=</span> <span class="n">network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_target_network</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_steps</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loss_function</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">SmoothL1Loss</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_policy_network</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
+            <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span>
+            <span class="n">amsgrad</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Neuron.act"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.deep_q.Neuron.act">[docs]</a>    <span class="k">def</span> <span class="nf">act</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">eps_threshold</span> <span class="o">=</span> <span class="n">EPSILON_END</span> <span class="o">+</span> <span class="p">(</span><span class="n">EPSILON_START</span> <span class="o">-</span> <span class="n">EPSILON_END</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_steps</span> <span class="o">/</span> <span class="n">EPSILON_DECAY</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_steps</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">eps_threshold</span><span class="p">:</span>
+
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_policy_network</span><span class="p">(</span><span class="n">observation</span><span class="p">)</span>
+                <span class="n">action</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_actions</span><span class="p">)]],</span>
+                <span class="n">device</span><span class="o">=</span><span class="n">narla</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">record</span><span class="p">(</span>
+            <span class="n">observation</span><span class="o">=</span><span class="n">observation</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="n">action</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">action</span></div>
+
+<div class="viewcode-block" id="Neuron.learn"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.deep_q.Neuron.learn">[docs]</a>    <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">narla</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">batch_size</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">state_batch</span><span class="p">,</span> <span class="n">action_batch</span><span class="p">,</span> <span class="n">reward_batch</span><span class="p">,</span> <span class="n">non_final_next_states</span><span class="p">,</span> <span class="n">non_final_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_history</span><span class="p">()</span>
+
+        <span class="c1"># Compute Q(s_t, a) - the model computes Q(s_t), then we select the columns of actions taken. These are the</span>
+        <span class="c1"># actions which would&#39;ve been taken for each batch state according to policy_net</span>
+        <span class="n">state_action_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_policy_network</span><span class="p">(</span><span class="n">state_batch</span><span class="p">)</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">action_batch</span><span class="p">)</span>
+
+        <span class="c1"># Compute V(s_{t+1}) for all next states.</span>
+        <span class="c1"># Expected values of actions for non_final_next_states are computed based on the &quot;older&quot; target_net; selecting</span>
+        <span class="c1"># their best reward with max(1)[0]. This is merged based on the mask, such that we&#39;ll have either the expected</span>
+        <span class="c1"># state value or 0 in case the state was final.</span>
+        <span class="n">next_state_values</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">narla</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">narla</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">next_state_values</span><span class="p">[</span><span class="n">non_final_mask</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_target_network</span><span class="p">(</span><span class="n">non_final_next_states</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Compute the expected Q values</span>
+        <span class="n">expected_state_action_values</span> <span class="o">=</span> <span class="p">(</span><span class="n">next_state_values</span> <span class="o">*</span> <span class="n">GAMMA</span><span class="p">)</span> <span class="o">+</span> <span class="n">reward_batch</span>
+
+        <span class="c1"># Compute Huber loss</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loss_function</span><span class="p">(</span><span class="n">state_action_values</span><span class="p">,</span> <span class="n">expected_state_action_values</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Optimize the model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+        <span class="c1"># In-place gradient clipping</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">clip_grad_value_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_policy_network</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># Update the weights of the target network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_target_network</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Neuron.sample_history"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.deep_q.Neuron.sample_history">[docs]</a>    <span class="k">def</span> <span class="nf">sample_history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+        <span class="n">observations</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">next_observations</span><span class="p">,</span> <span class="n">terminated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+            <span class="n">names</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">saved_data</span><span class="o">.</span><span class="n">OBSERVATION</span><span class="p">,</span>
+                <span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">saved_data</span><span class="o">.</span><span class="n">ACTION</span><span class="p">,</span>
+                <span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">reward_types</span><span class="o">.</span><span class="n">TASK_REWARD</span><span class="p">,</span>
+                <span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">saved_data</span><span class="o">.</span><span class="n">NEXT_OBSERVATION</span><span class="p">,</span>
+                <span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">saved_data</span><span class="o">.</span><span class="n">TERMINATED</span>
+            <span class="p">],</span>
+            <span class="n">sample_size</span><span class="o">=</span><span class="n">narla</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">batch_size</span>
+        <span class="p">)</span>
+
+        <span class="n">observation_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">observations</span><span class="p">)</span>
+        <span class="n">action_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
+        <span class="n">reward_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span>
+
+        <span class="n">non_final_next_states</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span>
+            <span class="n">observation</span> <span class="k">for</span> <span class="n">observation</span><span class="p">,</span> <span class="n">done</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">next_observations</span><span class="p">,</span> <span class="n">terminated</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">done</span>
+        <span class="p">])</span>
+        <span class="n">non_final_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="p">[</span>
+                <span class="ow">not</span> <span class="n">done</span> <span class="k">for</span> <span class="n">done</span> <span class="ow">in</span> <span class="n">terminated</span>
+            <span class="p">],</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">narla</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">observation_batch</span><span class="p">,</span> <span class="n">action_batch</span><span class="p">,</span> <span class="n">reward_batch</span><span class="p">,</span> <span class="n">non_final_next_states</span><span class="p">,</span> <span class="n">non_final_mask</span></div>
+
+<div class="viewcode-block" id="Neuron.update_target_network"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.deep_q.Neuron.update_target_network">[docs]</a>    <span class="k">def</span> <span class="nf">update_target_network</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Soft update of the target network&#39;s weights</span>
+        <span class="c1"># θ′ ← τ θ + (1 −τ )θ′</span>
+        <span class="n">target_network_state_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_target_network</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+        <span class="n">policy_network_state_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_policy_network</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">policy_network_state_dict</span><span class="p">:</span>
+            <span class="n">target_network_state_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">policy_network_state_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">*</span> <span class="n">TAU</span> <span class="o">+</span> <span class="n">target_network_state_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">TAU</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_target_network</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">target_network_state_dict</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Jordan Ott.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
