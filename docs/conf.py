@@ -39,6 +39,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
+    'enum_tools.autoenum',
     'nbsphinx'
 ]
 exclude_patterns = ['_build', '**.ipynb_checkpoints']
@@ -94,5 +95,3 @@ html_static_path = ['_static']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'NaRLAdoc'
-
-html_extra_path = ['getting_started/install_caravan.sh']

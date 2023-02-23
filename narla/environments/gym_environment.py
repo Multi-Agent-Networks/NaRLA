@@ -8,6 +8,9 @@ from narla.environments import Environment
 
 
 class GymEnvironment(Environment):
+    """
+    Wrapper on `Gymnasium Environments <https://gymnasium.farama.org/>`_
+    """
     def __init__(self, name: narla.environments.AvailableEnvironments, render: bool = False):
         super().__init__(
             name=name,

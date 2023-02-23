@@ -9,6 +9,10 @@ ActionSpace
    :undoc-members:
    :show-inheritance:
 
+AvailableEnvironments
+---------------------
+.. autoenum:: narla.environments.AvailableEnvironments
+
 
 Environment
 -----------
@@ -25,3 +29,6 @@ GymEnvironment
    :undoc-members:
    :show-inheritance:
 
+GymEnvironments
+---------------
+.. autoenum:: narla.environments.GymEnvironments

@@ -7,3 +7,4 @@ pydata-sphinx-theme==0.8.0
 sphinx-autodoc-typehints==1.14.1
 nbsphinx>=0.8.8
 sphinx-rtd-theme>=1.0.0
+enum-tools[sphinx]

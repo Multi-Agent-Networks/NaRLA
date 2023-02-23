@@ -10,9 +10,11 @@ GAMMA = 0.99
 
 class Neuron(BaseNeuron):
     """
-    The ActorCritic Neuron is based on this `PyTorch example`_
+    The ActorCritic Neuron is based on this `PyTorch example <https://github.com/pytorch/examples/blob/main/reinforcement_learning/actor_critic.py>`_
 
-    .. _PyTorch example: https://github.com/pytorch/examples/blob/main/reinforcement_learning/actor_critic.py
+    :param observation_size: Size of the observation which the Neuron will receive
+    :param number_of_actions: Number of actions available to the Neuron
+    :param learning_rate: Learning rate for the Neuron's Network
     """
     def __init__(
         self,
