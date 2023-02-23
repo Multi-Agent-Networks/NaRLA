@@ -94,9 +94,11 @@
 
 <div class="viewcode-block" id="Neuron"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.actor_critic.Neuron">[docs]</a><span class="k">class</span> <span class="nc">Neuron</span><span class="p">(</span><span class="n">BaseNeuron</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The ActorCritic Neuron is based on this `PyTorch example`_</span>
+<span class="sd">    The ActorCritic Neuron is based on this `PyTorch example &lt;https://github.com/pytorch/examples/blob/main/reinforcement_learning/actor_critic.py&gt;`_</span>
 
-<span class="sd">    .. _PyTorch example: https://github.com/pytorch/examples/blob/main/reinforcement_learning/actor_critic.py</span>
+<span class="sd">    :param observation_size: Size of the observation which the Neuron will receive</span>
+<span class="sd">    :param number_of_actions: Number of actions available to the Neuron</span>
+<span class="sd">    :param learning_rate: Learning rate for the Neuron&#39;s Network</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

@@ -54,8 +54,10 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">narla.environments</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#actionspace">ActionSpace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#availableenvironments">AvailableEnvironments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#environment">Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gymenvironment">GymEnvironment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gymenvironments">GymEnvironments</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">narla.history</a></li>
@@ -121,13 +123,19 @@
 <dt class="sig sig-object py" id="narla.environments.ActionSpace">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.environments.</span></span><span class="sig-name descname"><span class="pre">ActionSpace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/action_space.html#ActionSpace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.ActionSpace" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>ActionSpace for the Environment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of available actions in the environment</p>
+</dd>
+</dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.environments.ActionSpace.number_of_actions">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_actions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#narla.environments.ActionSpace.number_of_actions" title="Permalink to this definition"></a></dt>
-<dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+<dd><p>Get the number of actions</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>rtype</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -135,7 +143,8 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.environments.ActionSpace.sample">
 <span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/action_space.html#ActionSpace.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.ActionSpace.sample" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Sample an action from the Space</p>
+<dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd>
@@ -145,14 +154,23 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.environments.ActionSpace.shape">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#narla.environments.ActionSpace.shape" title="Permalink to this definition"></a></dt>
-<dd><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, …]</p>
+<dd><p>Shape of the ActionSpace</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>rtype</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, …]</p>
 </dd>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="availableenvironments">
+<h2>AvailableEnvironments<a class="headerlink" href="#availableenvironments" title="Permalink to this headline"></a></h2>
+<dl class="py class enum">
+<dt class="sig sig-object py" id="narla.environments.AvailableEnvironments">
+<em class="property"><span class="pre">enum</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.environments.</span></span><span class="sig-name descname"><span class="pre">AvailableEnvironments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/available_environments.html#AvailableEnvironments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.AvailableEnvironments" title="Permalink to this definition"></a></dt>
+<dd><p>An enumeration.</p>
 </dd></dl>
 
 </section>
@@ -162,13 +180,22 @@
 <dt class="sig sig-object py" id="narla.environments.Environment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.environments.</span></span><span class="sig-name descname"><span class="pre">Environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/environment.html#Environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.Environment" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Environment base class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference internal" href="#narla.environments.AvailableEnvironments" title="narla.environments.available_environments.AvailableEnvironments"><code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableEnvironments</span></code></a>) – Name of the environment</p></li>
+<li><p><strong>render</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code> will visualize the environment</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.environments.Environment.action_space">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">action_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#narla.environments.ActionSpace" title="narla.environments.action_space.ActionSpace"><span class="pre">narla.environments.action_space.ActionSpace</span></a></em><a class="headerlink" href="#narla.environments.Environment.action_space" title="Permalink to this definition"></a></dt>
-<dd><p><a class="reference internal" href="#narla.environments.ActionSpace" title="narla.environments.action_space.ActionSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActionSpace</span></code></a></p>
+<dd><p>Get the Environment’s ActionSpace</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>rtype</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#narla.environments.ActionSpace" title="narla.environments.action_space.ActionSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActionSpace</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -176,10 +203,10 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.environments.Environment.episode_reward">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">episode_reward</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#narla.environments.Environment.episode_reward" title="Permalink to this definition"></a></dt>
-<dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+<dd><p>Get the total reward from the current episode</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>rtype</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -187,10 +214,10 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.environments.Environment.observation_size">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">observation_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#narla.environments.Environment.observation_size" title="Permalink to this definition"></a></dt>
-<dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+<dd><p>Access the size of the observation that the Environment produces</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>rtype</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -198,14 +225,30 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.environments.Environment.reset">
 <span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/environment.html#Environment.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.Environment.reset" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Reset the environment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Observation</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.environments.Environment.step">
 <span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/environment.html#Environment.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.Environment.step" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]</p>
+<dd><p>Take a single action and advance the Environment one time step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>action</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Action to be taken</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Observation, reward, terminated</p>
 </dd>
 </dl>
 </dd></dl>
@@ -219,13 +262,14 @@
 <dt class="sig sig-object py" id="narla.environments.GymEnvironment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.environments.</span></span><span class="sig-name descname"><span class="pre">GymEnvironment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/gym_environment.html#GymEnvironment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.GymEnvironment" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#narla.environments.Environment" title="narla.environments.environment.Environment"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.environments.environment.Environment</span></code></a></p>
+<p>Wrapper on <a class="reference external" href="https://gymnasium.farama.org/">Gymnasium Environments</a></p>
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.environments.GymEnvironment.observation_size">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">observation_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#narla.environments.GymEnvironment.observation_size" title="Permalink to this definition"></a></dt>
-<dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+<dd><p>Access the size of the observation that the Environment produces</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>rtype</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -233,9 +277,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.environments.GymEnvironment.reset">
 <span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/gym_environment.html#GymEnvironment.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.GymEnvironment.reset" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Reset the environment</p>
+<dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Observation</p>
 </dd>
 </dl>
 </dd></dl>
@@ -243,12 +291,39 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.environments.GymEnvironment.step">
 <span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/gym_environment.html#GymEnvironment.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.GymEnvironment.step" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]</p>
+<dd><p>Take a single action and advance the Environment one time step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>action</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Action to be taken</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Observation, reward, terminated</p>
 </dd>
 </dl>
 </dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="gymenvironments">
+<h2>GymEnvironments<a class="headerlink" href="#gymenvironments" title="Permalink to this headline"></a></h2>
+<dl class="py class enum">
+<dt class="sig sig-object py" id="narla.environments.GymEnvironments">
+<em class="property"><span class="pre">enum</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.environments.</span></span><span class="sig-name descname"><span class="pre">GymEnvironments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/available_environments.html#GymEnvironments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.GymEnvironments" title="Permalink to this definition"></a></dt>
+<dd><p>An enumeration.</p>
+<p>Valid values are as follows:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.environments.GymEnvironments.CART_POLE">
+<span class="sig-name descname"><span class="pre">CART_POLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;GymEnvironments.CART_POLE:</span> <span class="pre">'CartPole-v1'&gt;</span></em><a class="headerlink" href="#narla.environments.GymEnvironments.CART_POLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.environments.GymEnvironments.MOUNTAIN_CAR">
+<span class="sig-name descname"><span class="pre">MOUNTAIN_CAR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;GymEnvironments.MOUNTAIN_CAR:</span> <span class="pre">'MountainCar-v0'&gt;</span></em><a class="headerlink" href="#narla.environments.GymEnvironments.MOUNTAIN_CAR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

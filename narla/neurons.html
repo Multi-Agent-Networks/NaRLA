@@ -163,12 +163,25 @@ registered hooks while the latter silently ignores them.</p>
 <dt class="sig sig-object py" id="narla.neurons.Neuron">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.</span></span><span class="sig-name descname"><span class="pre">Neuron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Neuron base class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the Neuron will receive</p></li>
+<li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the Neuron</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.Neuron.act">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron.act" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+<dd><p>Take an action based on the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Observation from the Neuron’s local environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -176,12 +189,19 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.Neuron.learn">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron.learn" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Update the Neuron’s internal Network</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.Neuron.record">
 <span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron.record" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Record information in the Neuron’s internal History. This stored data will be used for learning</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Keyword arguments</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -227,13 +247,26 @@ registered hooks while the latter silently ignores them.</p>
 <dt class="sig sig-object py" id="narla.neurons.actor_critic.Neuron">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.actor_critic.</span></span><span class="sig-name descname"><span class="pre">Neuron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.neurons.neuron.Neuron</span></code></a></p>
-<p>The ActorCritic Neuron is based on this <a href="#id6"><span class="problematic" id="id7">`PyTorch example`_</span></a></p>
+<p>The ActorCritic Neuron is based on this <a class="reference external" href="https://github.com/pytorch/examples/blob/main/reinforcement_learning/actor_critic.py">PyTorch example</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the Neuron will receive</p></li>
+<li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the Neuron</p></li>
+<li><p><strong>learning_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Learning rate for the Neuron’s Network</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.actor_critic.Neuron.act">
 <span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron.act" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+<dd><p>Take an action based on the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Observation from the Neuron’s local environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -251,7 +284,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.actor_critic.Neuron.learn">
 <span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron.learn" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Update the Neuron’s internal Network</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -303,13 +337,26 @@ registered hooks while the latter silently ignores them.</p>
 <dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.deep_q.</span></span><span class="sig-name descname"><span class="pre">Neuron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.neurons.neuron.Neuron</span></code></a></p>
-<p>The DeepQ Neuron is based on this <a href="#id8"><span class="problematic" id="id9">`PyTorch example`_</span></a></p>
+<p>The DeepQ Neuron is based on this <a class="reference external" href="https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html">PyTorch example</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the Neuron will receive</p></li>
+<li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the Neuron</p></li>
+<li><p><strong>learning_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Learning rate for the Neuron’s Network</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron.act">
 <span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.act" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+<dd><p>Take an action based on the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Observation from the Neuron’s local environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -317,7 +364,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron.learn">
 <span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.learn" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Update the Neuron’s internal Network</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron.sample_history">
