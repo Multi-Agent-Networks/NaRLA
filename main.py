@@ -38,7 +38,7 @@ for episode_number in range(narla.settings.maximum_episodes):
         })
 
         if terminated:
-            print("Episode:", episode_number, "total reward:", environment.episode_reward)
+            print("Episode:", episode_number, "total reward:", environment.episode_reward, flush=True)
 
             # Record the reward history for the episode
             network.record(**{
@@ -55,3 +55,4 @@ narla.io.save_history_as_data_frame(
     name="network",
     history=network.history
 )
+print("done", flush=True)

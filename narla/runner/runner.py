@@ -52,7 +52,7 @@ class Runner:
             settings=settings,
             process=process
         )
-        time.sleep(5)
+        time.sleep(1)
 
         return job
 

@@ -1,5 +1,6 @@
 *.pyc
 *.egg-info
 .idea
-Results
+*Results
 build
+.ipynb_checkpoints
