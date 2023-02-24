@@ -6,7 +6,10 @@ import tyro
 import narla
 import dataclasses
 import prettyprinter
-from typing import Literal
+try:
+    from typing import Literal
+except:
+    from typing_extensions import Literal
 from narla.history import reward_types
 from narla.neurons import ALL_NEURONS, AvailableNeurons
 from narla.environments import ALL_ENVIRONMENTS, GymEnvironments

@@ -1,11 +1,12 @@
 torch~=1.12.1
 typing~=3.7.4.3
 NaRLA~=0.1.dev0
-numpy~=1.22.4
+numpy
 gymnasium~=0.27.1
 PyYAML~=6.0
-pandas~=1.4.2
+pandas
 tqdm~=4.64.1
 enum34~=1.1.10
 tyro~=0.3.37
 prettyprinter~=0.18.0
+typing_extensions
