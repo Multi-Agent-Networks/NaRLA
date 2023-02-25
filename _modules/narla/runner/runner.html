@@ -92,11 +92,19 @@
 
 
 <div class="viewcode-block" id="Runner"><a class="viewcode-back" href="../../../narla/runner.html#narla.runner.Runner">[docs]</a><span class="k">class</span> <span class="nc">Runner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Runner will execute a list of Settings across available GPUs</span>
+
+<span class="sd">    :param all_settings: List of Settings. Will execute a run of ``main.py`` per Setting</span>
+<span class="sd">    :param available_gpus: List of available GPU device IDs</span>
+<span class="sd">    :param jobs_per_gpu: Number of Jobs to put on each GPU</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_settings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">Settings</span><span class="p">],</span> <span class="n">available_gpus</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">jobs_per_gpu</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_all_settings</span> <span class="o">=</span> <span class="n">all_settings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_available_gpus</span> <span class="o">=</span> <span class="n">available_gpus</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_jobs_per_gpu</span> <span class="o">=</span> <span class="n">jobs_per_gpu</span>
 
+        <span class="c1"># Internal dictionary mapping GPU ID to list of Jobs running on that device</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_jobs_on_gpus</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">Job</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">gpu</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">gpu</span> <span class="ow">in</span> <span class="n">available_gpus</span>
         <span class="p">}</span>
@@ -107,6 +115,10 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="Runner.execute"><a class="viewcode-back" href="../../../narla/runner.html#narla.runner.Runner.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute a Job for each group of Settings passed to the runner. Will distribute Jobs evenly across GPUs as they</span>
+<span class="sd">        become available</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_settings</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fill_free_gpus</span><span class="p">()</span>
 
@@ -152,6 +164,9 @@
                 <span class="n">running_jobs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Runner.is_done"><a class="viewcode-back" href="../../../narla/runner.html#narla.runner.Runner.is_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_done</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns ``True`` if all Jobs have completed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">running_jobs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs_on_gpus</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">running_jobs</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>

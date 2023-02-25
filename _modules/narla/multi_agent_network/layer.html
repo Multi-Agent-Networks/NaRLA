@@ -88,6 +88,13 @@
 
 
 <div class="viewcode-block" id="Layer"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.Layer">[docs]</a><span class="k">class</span> <span class="nc">Layer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Layer contains a list of Neurons</span>
+
+<span class="sd">    :param observation_size: Size of the observation which the Layer will receive</span>
+<span class="sd">    :param number_of_actions: Number of actions available to the Layer</span>
+<span class="sd">    :param number_of_neurons: Number of Neurons in the Layer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">number_of_actions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">number_of_neurons</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">observation_size</span> <span class="o">=</span> <span class="n">observation_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">number_of_actions</span> <span class="o">=</span> <span class="n">number_of_actions</span>
@@ -99,6 +106,11 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="Layer.act"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.Layer.act">[docs]</a>    <span class="k">def</span> <span class="nf">act</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Take an action based on the observation</span>
+
+<span class="sd">        :param observation: Observation from the Layer&#39;s local environment</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">layer_output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_neurons</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">narla</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">neuron</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_neurons</span><span class="p">):</span>
             <span class="n">action</span> <span class="o">=</span> <span class="n">neuron</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">observation</span><span class="p">)</span>
@@ -127,15 +139,26 @@
         <span class="k">return</span> <span class="n">neurons</span>
 
 <div class="viewcode-block" id="Layer.distribute_to_neurons"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.Layer.distribute_to_neurons">[docs]</a>    <span class="k">def</span> <span class="nf">distribute_to_neurons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Distribute data to the Neurons</span>
+
+<span class="sd">        :param kwargs: Key word arguments to be distributed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">neuron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neurons</span><span class="p">:</span>
             <span class="n">neuron</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Layer.learn"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.Layer.learn">[docs]</a>    <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute learning phase for Neurons</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">neuron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neurons</span><span class="p">:</span>
             <span class="n">neuron</span><span class="o">.</span><span class="n">learn</span><span class="p">()</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">number_of_neurons</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Number of Neurons in the Layer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_neurons</span><span class="p">)</span></div>
 </pre></div>
 

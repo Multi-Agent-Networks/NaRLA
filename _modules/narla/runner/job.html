@@ -87,11 +87,20 @@
 
 
 <div class="viewcode-block" id="Job"><a class="viewcode-back" href="../../../narla/runner.html#narla.runner.Job">[docs]</a><span class="k">class</span> <span class="nc">Job</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Job is executed by the Runner</span>
+
+<span class="sd">    :param settings: Settings for an individual MultiAgentNetwork</span>
+<span class="sd">    :param process: Process the Job is running on</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">narla</span><span class="o">.</span><span class="n">Settings</span><span class="p">,</span> <span class="n">process</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_settings</span> <span class="o">=</span> <span class="n">settings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span> <span class="o">=</span> <span class="n">process</span>
 
 <div class="viewcode-block" id="Job.is_done"><a class="viewcode-back" href="../../../narla/runner.html#narla.runner.Job.is_done">[docs]</a>    <span class="k">def</span> <span class="nf">is_done</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If ``True`` the Job has completed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">is_done</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
         <span class="k">return</span> <span class="n">is_done</span></div></div>
