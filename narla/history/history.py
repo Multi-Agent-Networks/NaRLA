@@ -7,12 +7,20 @@ from typing import Dict, List
 
 
 class History:
-    def __init__(self, storage_size: int = 100_000):
+    """
+    History object contains arbitrary data from training
+
+    :param storage_size: Max storage size
+    """
+    def __init__(self, storage_size: int = 10_000):
         self.storage_size = storage_size
 
         self._history: Dict[str, List[torch.Tensor | float]] = {}
 
     def clear(self):
+        """
+        Clear History
+        """
         self._history: Dict[str, List[torch.Tensor | float]] = {}
 
     def get(self, key: str) -> list:
@@ -62,6 +70,11 @@ class History:
         return sample
 
     def to_data_frame(self, keys: List[str] = ()) -> pd.DataFrame:
+        """
+        Convert a History object to a DataFrame
+
+        :param keys: Keys to use as columns in the DataFrame
+        """
         if len(keys) == 0:
             keys = sorted(self._history.keys())
 

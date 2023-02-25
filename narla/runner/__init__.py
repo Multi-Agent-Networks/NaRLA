@@ -1,6 +1,6 @@
-from narla.runner.settings import (
+from narla.runner.runner_settings import (
     parse_args,
-    Settings
+    RunnerSettings
 )
 from narla.runner.job import Job
 from narla.runner.runner import Runner
