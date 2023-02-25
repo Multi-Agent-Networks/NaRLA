@@ -15,7 +15,7 @@ from narla.environments import GymEnvironments
 
 
 @dataclasses.dataclass
-class Settings:
+class RunnerSettings:
     settings: narla.Settings = Settings()
 
     environments: List[GymEnvironments] = (GymEnvironments.CART_POLE,)
@@ -40,9 +40,15 @@ class Settings:
     """Type of reward to use during training"""
 
     def as_dictionary(self) -> dict:
+        """
+        Convert the RunnerSettings to a dictionary
+        """
         return dataclasses.asdict(self)
 
     def product(self) -> List[narla.Settings]:
+        """
+        Create the product of all Settings based on the RunnerSettings values
+        """
         all_settings = []
         meta_settings = itertools.product(
             self.environments,
@@ -67,6 +73,9 @@ class Settings:
         return all_settings
 
     def to_command_string(self):
+        """
+        Converts RunnerSettings to a command line string
+        """
         arguments = []
         for key, value in self.as_dictionary().items():
             if isinstance(value, enum.Enum):
@@ -83,8 +92,11 @@ class Settings:
         return " ".join(arguments)
 
 
-def parse_args() -> Settings:
-    runner_settings = tyro.cli(Settings)
+def parse_args() -> RunnerSettings:
+    """
+    Parse the command line arguments for the RunnerSettings
+    """
+    runner_settings = tyro.cli(RunnerSettings)
     prettyprinter.pprint(runner_settings.as_dictionary())
     print(flush=True)
 

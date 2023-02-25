@@ -6,7 +6,10 @@ import tyro
 import narla
 import dataclasses
 import prettyprinter
-from typing import Literal
+try:
+    from typing import Literal
+except:
+    from typing_extensions import Literal
 from narla.history import reward_types
 from narla.neurons import ALL_NEURONS, AvailableNeurons
 from narla.environments import ALL_ENVIRONMENTS, GymEnvironments
@@ -51,9 +54,15 @@ class Settings:
     """Unique ID of the trial being run, corresponds to the path of data saving <results_directory>/<trial_id>/"""
 
     def as_dictionary(self) -> dict:
+        """
+        Convert the Settings to a dictionary
+        """
         return dataclasses.asdict(self)
 
-    def to_command_string(self):
+    def to_command_string(self, prefix: str = ""):
+        """
+        Converts Settings to a command line string
+        """
         arguments = []
         for key, value in self.as_dictionary().items():
             if isinstance(value, enum.Enum):
@@ -65,12 +74,15 @@ class Settings:
                 else:
                     value = ""
 
-            arguments.append(f"--{key} {value}")
+            arguments.append(f"--{prefix}{key} {value}")
 
         return " ".join(arguments)
 
 
 def parse_args() -> Settings:
+    """
+    Parse the command line arguments for the Settings
+    """
     narla.settings = tyro.cli(Settings)
     prettyprinter.pprint(narla.settings.as_dictionary())
     print(flush=True)

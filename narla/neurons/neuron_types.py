@@ -1,5 +1,8 @@
 import enum
-from typing import Literal
+try:
+    from typing import Literal
+except:
+    from typing_extensions import Literal
 
 
 class AvailableNeurons(enum.Enum):

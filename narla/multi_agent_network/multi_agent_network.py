@@ -6,6 +6,14 @@ from typing import List
 
 
 class MultiAgentNetwork:
+    """
+    A MultiAgentNetwork contains a list of Layers
+
+    :param observation_size: Size of the observation which the MultiAgentNetwork will receive
+    :param number_of_actions: Number of actions available to the MultiAgentNetwork
+    :param number_of_layers: Number of Layers in the MultiAgentNetwork
+    :param number_of_neurons_per_layer: Number of Neurons each Layer will have
+    """
     def __init__(
         self,
         observation_size: int,
@@ -22,6 +30,11 @@ class MultiAgentNetwork:
         )
 
     def act(self, observation: torch.Tensor) -> torch.Tensor:
+        """
+        Take an action based on the observation
+
+        :param observation: Observation from the MultiAgentNetwork environment
+        """
         previous_layer_action = observation
         for layer in self._layers:
             previous_layer_action = layer.act(previous_layer_action)
@@ -59,16 +72,32 @@ class MultiAgentNetwork:
         return layers
 
     def distribute_to_layers(self, **kwargs):
+        """
+        Distribute data to the Layers
+
+        :param kwargs: Key word arguments to be distributed
+        """
         for layer in self._layers:
             layer.distribute_to_neurons(**kwargs)
 
     @property
     def history(self) -> narla.history.History:
+        """
+        Access the History of the MultiAgentNetwork
+        """
         return self._history
 
     def learn(self):
+        """
+        Execute learning phase for Layers
+        """
         for layer in self._layers:
             layer.learn()
 
     def record(self, **kwargs):
+        """
+        Record data into the MultiAgentNetwork's History
+
+        :param kwargs: Key word arguments to be stored in the History
+        """
         self._history.record(**kwargs)

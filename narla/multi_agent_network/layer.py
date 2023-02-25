@@ -4,6 +4,13 @@ from typing import List
 
 
 class Layer:
+    """
+    A Layer contains a list of Neurons
+
+    :param observation_size: Size of the observation which the Layer will receive
+    :param number_of_actions: Number of actions available to the Layer
+    :param number_of_neurons: Number of Neurons in the Layer
+    """
     def __init__(self, observation_size: int, number_of_actions: int, number_of_neurons: int):
         self.observation_size = observation_size
         self.number_of_actions = number_of_actions
@@ -15,6 +22,11 @@ class Layer:
         )
 
     def act(self, observation: torch.Tensor) -> torch.Tensor:
+        """
+        Take an action based on the observation
+
+        :param observation: Observation from the Layer's local environment
+        """
         layer_output = torch.zeros((1, self.number_of_neurons), device=narla.settings.device)
         for index, neuron in enumerate(self._neurons):
             action = neuron.act(observation)
@@ -43,13 +55,24 @@ class Layer:
         return neurons
 
     def distribute_to_neurons(self, **kwargs):
+        """
+        Distribute data to the Neurons
+
+        :param kwargs: Key word arguments to be distributed
+        """
         for neuron in self._neurons:
             neuron.record(**kwargs)
 
     def learn(self):
+        """
+        Execute learning phase for Neurons
+        """
         for neuron in self._neurons:
             neuron.learn()
 
     @property
     def number_of_neurons(self) -> int:
+        """
+        Number of Neurons in the Layer
+        """
         return len(self._neurons)

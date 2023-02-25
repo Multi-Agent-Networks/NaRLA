@@ -8,11 +8,19 @@ from typing import Dict, List
 
 
 class Runner:
+    """
+    A Runner will execute a list of Settings across available GPUs
+
+    :param all_settings: List of Settings. Will execute a run of ``main.py`` per Setting
+    :param available_gpus: List of available GPU device IDs
+    :param jobs_per_gpu: Number of Jobs to put on each GPU
+    """
     def __init__(self, all_settings: List[narla.Settings], available_gpus: List[int] = (0,), jobs_per_gpu: int = 1):
         self._all_settings = all_settings
         self._available_gpus = available_gpus
         self._jobs_per_gpu = jobs_per_gpu
 
+        # Internal dictionary mapping GPU ID to list of Jobs running on that device
         self._jobs_on_gpus: Dict[int, List[narla.runner.Job]] = {
             gpu: [] for gpu in available_gpus
         }
@@ -23,6 +31,10 @@ class Runner:
         )
 
     def execute(self):
+        """
+        Execute a Job for each group of Settings passed to the runner. Will distribute Jobs evenly across GPUs as they
+        become available
+        """
         while self._all_settings:
             self._fill_free_gpus()
 
@@ -52,7 +64,7 @@ class Runner:
             settings=settings,
             process=process
         )
-        time.sleep(5)
+        time.sleep(1)
 
         return job
 
@@ -68,6 +80,9 @@ class Runner:
                 running_jobs.append(job)
 
     def is_done(self) -> bool:
+        """
+        Returns ``True`` if all Jobs have completed
+        """
         for running_jobs in self._jobs_on_gpus.values():
             if running_jobs:
                 return False
