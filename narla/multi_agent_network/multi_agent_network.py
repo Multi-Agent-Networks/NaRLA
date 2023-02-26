@@ -21,7 +21,7 @@ class MultiAgentNetwork:
         number_of_layers: int,
         number_of_neurons_per_layer: int
     ):
-        self._history = narla.history.History()
+        self._history = narla.history.History(storage_size=1_000_000)
         self._layers: List[narla.multi_agent_network.Layer] = self._build_layers(
             observation_size=observation_size,
             number_of_actions=number_of_actions,

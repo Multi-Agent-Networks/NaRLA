@@ -21,7 +21,8 @@ network = narla.multi_agent_network.MultiAgentNetwork(
     number_of_neurons_per_layer=narla.settings.number_of_neurons_per_layer
 )
 
-for episode_number in range(narla.settings.maximum_episodes):
+
+for episode_number in range(1, narla.settings.maximum_episodes + 1):
 
     observation = environment.reset()
     for count in narla.count():
@@ -50,9 +51,15 @@ for episode_number in range(narla.settings.maximum_episodes):
     # Network learns based on episode
     network.learn()
 
+    if episode_number % narla.settings.save_every:
+        narla.io.save_history_as_data_frame(
+            name="results",
+            history=network.history
+        )
+
 
 narla.io.save_history_as_data_frame(
-    name="network",
+    name="results",
     history=network.history
 )
 print("done", flush=True)

@@ -50,6 +50,9 @@ class Settings:
     reward_type: Literal[reward_types.TASK_REWARD] = reward_types.TASK_REWARD
     """Type of reward to use during training"""
 
+    save_every: int = 1_000
+    """Save results every n steps"""
+
     trial_id: int = 0
     """Unique ID of the trial being run, corresponds to the path of data saving <results_directory>/<trial_id>/"""
 
