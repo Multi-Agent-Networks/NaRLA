@@ -15,6 +15,7 @@ class Layer:
         self.observation_size = observation_size
         self.number_of_actions = number_of_actions
 
+        self._layer_output: torch.Tensor = None
         self._neurons: List[narla.neurons.Neuron] = self._build_layer(
             observation_size=observation_size,
             number_of_actions=number_of_actions,
@@ -31,6 +32,8 @@ class Layer:
         for index, neuron in enumerate(self._neurons):
             action = neuron.act(observation)
             layer_output[0, index] = action
+
+        self._layer_output = layer_output
 
         return layer_output
 
@@ -62,6 +65,13 @@ class Layer:
         """
         for neuron in self._neurons:
             neuron.record(**kwargs)
+
+    @property
+    def layer_output(self) -> torch.Tensor:
+        """
+        Access the output of the Layer
+        """
+        return self._layer_output
 
     def learn(self):
         """
