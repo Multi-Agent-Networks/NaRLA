@@ -8,6 +8,7 @@ except:
 class AvailableNeurons(enum.Enum):
     ACTOR_CRITIC = "actor_critic"
     DEEP_Q = "deep_q"
+    POLICY_GRADIENT = "policy_gradient"
 
     def __str__(self):
         return self.value
@@ -15,5 +16,6 @@ class AvailableNeurons(enum.Enum):
 
 ALL_NEURONS = Literal[
     AvailableNeurons.ACTOR_CRITIC,
-    AvailableNeurons.DEEP_Q
+    AvailableNeurons.DEEP_Q,
+    AvailableNeurons.POLICY_GRADIENT,
 ]
