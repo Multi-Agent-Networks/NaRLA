@@ -137,11 +137,11 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">saved_data</span><span class="o">.</span><span class="n">NEXT_OBSERVATION</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_size</span><span class="p">:</span>
-                <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
-                <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">empty_cache</span><span class="p">()</span></div>
+            <span class="c1"># if len(self._history[key]) &gt;= self.storage_size:</span>
+            <span class="c1">#     gc.collect()</span>
+            <span class="c1">#     torch.cuda.empty_cache()</span>
 
 <div class="viewcode-block" id="History.sample"><a class="viewcode-back" href="../../../narla/history.html#narla.history.History.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">sample_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">from_most_recent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10_000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]:</span>
         <span class="n">sample</span> <span class="o">=</span> <span class="p">[]</span>
