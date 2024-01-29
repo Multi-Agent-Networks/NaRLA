@@ -14,7 +14,6 @@ class Network(BaseNetwork):
             embedding_size=embedding_size
         )
 
-        self._value_head = torch.nn.Linear(embedding_size, 1)
         self._action_head = torch.nn.Linear(embedding_size, output_size)
 
     @staticmethod
@@ -28,12 +27,10 @@ class Network(BaseNetwork):
 
         return torch.nn.Sequential(*layers)
 
-    def forward(self, X: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def forward(self, X: torch.Tensor) -> torch.Tensor:
         backbone_embedding = self._backbone(X)
-
-        value = self._value_head(backbone_embedding)
 
         action_embedding = self._action_head(backbone_embedding)
         action_probability = torch.nn.functional.softmax(action_embedding, dim=-1)
 
-        return action_probability, value
+        return action_probability

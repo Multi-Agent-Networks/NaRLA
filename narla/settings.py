@@ -29,6 +29,8 @@ class Settings:
     gpu: int = 0
     """GPU ID to run on"""
 
+    learning_rate: float = 1e-4
+
     maximum_episodes: int = 10_000
     """Total number of episodes to run for"""
 

@@ -27,6 +27,8 @@ class RunnerSettings:
     jobs_per_gpu: int = 2
     """Number of Jobs to put on each GPU"""
 
+    learning_rates: List[float] = (1e-4,)
+
     neuron_types: List[AvailableNeurons] = (AvailableNeurons.DEEP_Q, AvailableNeurons.ACTOR_CRITIC)
     """What to of neuron to use in the network"""
 

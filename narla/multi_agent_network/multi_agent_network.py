@@ -19,14 +19,16 @@ class MultiAgentNetwork:
         observation_size: int,
         number_of_actions: int,
         number_of_layers: int,
-        number_of_neurons_per_layer: int
+        number_of_neurons_per_layer: int,
+        learning_rate: float,
     ):
         self._history = narla.history.History(storage_size=1_000_000)
         self._layers: List[narla.multi_agent_network.Layer] = self._build_layers(
             observation_size=observation_size,
+            learning_rate=learning_rate,
             number_of_actions=number_of_actions,
             number_of_layers=number_of_layers,
-            number_of_neurons_per_layer=number_of_neurons_per_layer
+            number_of_neurons_per_layer=number_of_neurons_per_layer,
         )
 
     def act(self, observation: torch.Tensor) -> torch.Tensor:
@@ -44,6 +46,7 @@ class MultiAgentNetwork:
     @staticmethod
     def _build_layers(
         observation_size: int,
+        learning_rate: float,
         number_of_actions: int,
         number_of_layers: int,
         number_of_neurons_per_layer: int
@@ -55,6 +58,7 @@ class MultiAgentNetwork:
                 # On the last layer there's just a single output neuron
                 layer = narla.multi_agent_network.Layer(
                     observation_size=observation_size,
+                    learning_rate=learning_rate,
                     number_of_actions=number_of_actions,
                     number_of_neurons=1
                 )
@@ -62,6 +66,7 @@ class MultiAgentNetwork:
             else:
                 layer = narla.multi_agent_network.Layer(
                     observation_size=observation_size,
+                    learning_rate=learning_rate,
                     number_of_actions=2,
                     number_of_neurons=number_of_neurons_per_layer
                 )
