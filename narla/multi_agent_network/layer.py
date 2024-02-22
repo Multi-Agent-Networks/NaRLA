@@ -8,16 +8,18 @@ class Layer:
     A Layer contains a list of Neurons
 
     :param observation_size: Size of the observation which the Layer will receive
+    :param learning_rate: Learning rate for Neurons in the Layer
     :param number_of_actions: Number of actions available to the Layer
     :param number_of_neurons: Number of Neurons in the Layer
     """
-    def __init__(self, observation_size: int, number_of_actions: int, number_of_neurons: int):
+    def __init__(self, observation_size: int, learning_rate: float, number_of_actions: int, number_of_neurons: int):
         self.observation_size = observation_size
         self.number_of_actions = number_of_actions
 
         self._layer_output: torch.Tensor = None
         self._neurons: List[narla.neurons.Neuron] = self._build_layer(
             observation_size=observation_size,
+            learning_rate=learning_rate,
             number_of_actions=number_of_actions,
             number_of_neurons=number_of_neurons
         )
@@ -40,6 +42,7 @@ class Layer:
     @staticmethod
     def _build_layer(
         observation_size: int,
+        learning_rate: float,
         number_of_actions: int,
         number_of_neurons: int
     ) -> List[narla.neurons.Neuron]:
@@ -48,10 +51,13 @@ class Layer:
             NeuronType = narla.neurons.deep_q.Neuron
             if narla.settings.neuron_type == narla.neurons.AvailableNeurons.ACTOR_CRITIC:
                 NeuronType = narla.neurons.actor_critic.Neuron
+            if narla.settings.neuron_type == narla.neurons.AvailableNeurons.POLICY_GRADIENT:
+                NeuronType = narla.neurons.policy_gradient.Neuron
 
             neuron = NeuronType(
                 observation_size=observation_size,
-                number_of_actions=number_of_actions
+                number_of_actions=number_of_actions,
+                learning_rate=learning_rate,
             )
             neurons.append(neuron)
 

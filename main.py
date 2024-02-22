@@ -1,9 +1,14 @@
 import narla
-
+import torch
+import numpy as np
 
 # Parse command line args into narla.settings
 narla.parse_args()
 
+np.random.seed(0)
+torch.manual_seed(0)
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
 
 # Create the Environment
 environment = narla.environments.GymEnvironment(
@@ -16,6 +21,7 @@ observation = environment.reset()
 # Build the MultiAgentNetwork based on settings
 network = narla.multi_agent_network.MultiAgentNetwork(
     observation_size=environment.observation_size,
+    learning_rate=narla.settings.learning_rate,
     number_of_actions=environment.action_space.number_of_actions,
     number_of_layers=narla.settings.number_of_layers,
     number_of_neurons_per_layer=narla.settings.number_of_neurons_per_layer

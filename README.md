@@ -12,7 +12,7 @@ For installation instructions and API documentation please refer to the [docs](h
 narla main.py \
   --results_directory Results \
   --environment CART_POLE \
-  --neuron_type DEEP_Q
+  --neuron_type POLICY_GRADIENT
 ```
 
 ## Execute runner
@@ -23,8 +23,10 @@ narla scripts/run_jobs.py \
   --environments CART_POLE \
   --gpus 0 1 2 3 \
   --jobs_per_gpu 5 \
-  --neuron_types DEEP_Q ACTOR_CRITIC \
-  --number_of_layers 1 2 3 4 5 6 7 8 9 10 
+  --learning_rates 0.01 0.001 0.0001 \
+  --neuron_types DEEP_Q ACTOR_CRITIC POLICY_GRADIENT \
+  --number_of_layers 1 2 3 4 5 6 7 8 9 10 \
+  --number_of_neurons_per_layer 5 10 15
 ```
 
 ## Citation
