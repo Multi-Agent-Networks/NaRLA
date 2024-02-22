@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-import torch
-import narla
-import numpy as np
 from typing import Tuple
-from narla.neurons import Neuron as BaseNeuron
 
+import numpy as np
+import torch
+
+import narla
+from narla.neurons import Neuron as BaseNeuron
 
 TAU = 0.005
 GAMMA = 0.99
@@ -22,21 +23,18 @@ class Neuron(BaseNeuron):
     :param number_of_actions: Number of actions available to the Neuron
     :param learning_rate: Learning rate for the Neuron's Network
     """
-    def __init__(
-        self,
-        observation_size: int,
-        number_of_actions: int,
-        learning_rate: float = 1e-4
-    ):
+
+    def __init__(self, observation_size: int, number_of_actions: int, learning_rate: float = 1e-4):
         super().__init__(
             observation_size=observation_size,
-            number_of_actions=number_of_actions
+            number_of_actions=number_of_actions,
+            learning_rate=learning_rate,
         )
 
         network = narla.neurons.deep_q.Network(
             input_size=observation_size,
-            output_size=number_of_actions
-        ).to(narla.settings.device)
+            output_size=number_of_actions,
+        ).to(narla.experiment_settings.trial_settings.device)
 
         self._policy_network = network
         self._target_network = network.clone()
@@ -44,14 +42,10 @@ class Neuron(BaseNeuron):
         self._number_of_steps = 0
 
         self._loss_function = torch.nn.SmoothL1Loss()
-        self._optimizer = torch.optim.AdamW(
-            self._policy_network.parameters(),
-            lr=learning_rate,
-            amsgrad=True
-        )
+        self._optimizer = torch.optim.AdamW(self._policy_network.parameters(), lr=learning_rate, amsgrad=True)
 
     def act(self, observation: torch.Tensor) -> torch.Tensor:
-        eps_threshold = EPSILON_END + (EPSILON_START - EPSILON_END) * np.exp(-1. * self._number_of_steps / EPSILON_DECAY)
+        eps_threshold = EPSILON_END + (EPSILON_START - EPSILON_END) * np.exp(-1.0 * self._number_of_steps / EPSILON_DECAY)
         self._number_of_steps += 1
 
         if np.random.rand() > eps_threshold:
@@ -63,8 +57,8 @@ class Neuron(BaseNeuron):
         else:
             action = torch.tensor(
                 data=[[np.random.randint(0, self.number_of_actions)]],
-                device=narla.settings.device,
-                dtype=torch.long
+                device=narla.experiment_settings.trial_settings.device,
+                dtype=torch.long,
             )
 
         self._history.record(
@@ -75,7 +69,7 @@ class Neuron(BaseNeuron):
         return action
 
     def learn(self):
-        if len(self._history) < narla.settings.batch_size:
+        if len(self._history) < narla.experiment_settings.trial_settings.batch_size:
             return
 
         state_batch, action_batch, reward_batch, non_final_next_states, non_final_mask = self.sample_history()
@@ -88,7 +82,10 @@ class Neuron(BaseNeuron):
         # Expected values of actions for non_final_next_states are computed based on the "older" target_net; selecting
         # their best reward with max(1)[0]. This is merged based on the mask, such that we'll have either the expected
         # state value or 0 in case the state was final.
-        next_state_values = torch.zeros(narla.settings.batch_size, device=narla.settings.device)
+        next_state_values = torch.zeros(
+            narla.experiment_settings.trial_settings.batch_size,
+            device=narla.experiment_settings.trial_settings.device,
+        )
 
         with torch.no_grad():
             next_state_values[non_final_mask] = self._target_network(non_final_next_states).max(1)[0]
@@ -116,27 +113,22 @@ class Neuron(BaseNeuron):
             names=[
                 narla.history.saved_data.OBSERVATION,
                 narla.history.saved_data.ACTION,
-                narla.history.reward_types.TASK_REWARD,
+                narla.rewards.RewardTypes.TASK_REWARD,
                 narla.history.saved_data.NEXT_OBSERVATION,
-                narla.history.saved_data.TERMINATED
+                narla.history.saved_data.TERMINATED,
             ],
-            sample_size=narla.settings.batch_size
+            sample_size=narla.experiment_settings.trial_settings.batch_size,
         )
 
         observation_batch = torch.cat(observations)
         action_batch = torch.cat(actions)
         reward_batch = torch.cat(rewards)
 
-        non_final_next_states = torch.cat([
-            observation for observation, done in zip(next_observations, terminated)
-            if not done
-        ])
+        non_final_next_states = torch.cat([observation for observation, done in zip(next_observations, terminated) if not done])
         non_final_mask = torch.tensor(
-            data=[
-                not done for done in terminated
-            ],
-            device=narla.settings.device,
-            dtype=torch.bool
+            data=[not done for done in terminated],
+            device=narla.experiment_settings.trial_settings.device,
+            dtype=torch.bool,
         )
 
         return observation_batch, action_batch, reward_batch, non_final_next_states, non_final_mask

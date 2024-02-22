@@ -1,6 +1,10 @@
-import narla
-import torch
+from __future__ import annotations
+
 from typing import List
+
+import torch
+
+import narla
 
 
 class Layer:
@@ -8,20 +12,24 @@ class Layer:
     A Layer contains a list of Neurons
 
     :param observation_size: Size of the observation which the Layer will receive
-    :param learning_rate: Learning rate for Neurons in the Layer
     :param number_of_actions: Number of actions available to the Layer
-    :param number_of_neurons: Number of Neurons in the Layer
+    :param layer_settings: Settings for the Layer
     """
-    def __init__(self, observation_size: int, learning_rate: float, number_of_actions: int, number_of_neurons: int):
+
+    def __init__(
+        self,
+        observation_size: int,
+        number_of_actions: int,
+        layer_settings: narla.multi_agent_network.LayerSettings,
+    ):
         self.observation_size = observation_size
         self.number_of_actions = number_of_actions
 
-        self._layer_output: torch.Tensor = None
+        self._layer_output: torch.Tensor | None = None
         self._neurons: List[narla.neurons.Neuron] = self._build_layer(
             observation_size=observation_size,
-            learning_rate=learning_rate,
             number_of_actions=number_of_actions,
-            number_of_neurons=number_of_neurons
+            layer_settings=layer_settings,
         )
 
     def act(self, observation: torch.Tensor) -> torch.Tensor:
@@ -30,7 +38,7 @@ class Layer:
 
         :param observation: Observation from the Layer's local environment
         """
-        layer_output = torch.zeros((1, self.number_of_neurons), device=narla.settings.device)
+        layer_output = torch.zeros((1, self.number_of_neurons), device=narla.experiment_settings.trial_settings.device)
         for index, neuron in enumerate(self._neurons):
             action = neuron.act(observation)
             layer_output[0, index] = action
@@ -42,22 +50,14 @@ class Layer:
     @staticmethod
     def _build_layer(
         observation_size: int,
-        learning_rate: float,
         number_of_actions: int,
-        number_of_neurons: int
+        layer_settings: narla.multi_agent_network.LayerSettings,
     ) -> List[narla.neurons.Neuron]:
         neurons: List[narla.neurons.Neuron] = []
-        for _ in range(number_of_neurons):
-            NeuronType = narla.neurons.deep_q.Neuron
-            if narla.settings.neuron_type == narla.neurons.AvailableNeurons.ACTOR_CRITIC:
-                NeuronType = narla.neurons.actor_critic.Neuron
-            if narla.settings.neuron_type == narla.neurons.AvailableNeurons.POLICY_GRADIENT:
-                NeuronType = narla.neurons.policy_gradient.Neuron
-
-            neuron = NeuronType(
+        for _ in range(layer_settings.number_of_neurons_per_layer):
+            neuron = layer_settings.neuron_settings.create_neuron(
                 observation_size=observation_size,
                 number_of_actions=number_of_actions,
-                learning_rate=learning_rate,
             )
             neurons.append(neuron)
 
@@ -85,6 +85,10 @@ class Layer:
         """
         for neuron in self._neurons:
             neuron.learn()
+
+    @property
+    def neurons(self) -> List[narla.neurons.Neuron]:
+        return self._neurons
 
     @property
     def number_of_neurons(self) -> int:

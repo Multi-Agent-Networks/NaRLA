@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-import torch
-import narla
 from typing import List
+
+import torch
+
+import narla
 
 
 class MultiAgentNetwork:
@@ -11,25 +13,22 @@ class MultiAgentNetwork:
 
     :param observation_size: Size of the observation which the MultiAgentNetwork will receive
     :param number_of_actions: Number of actions available to the MultiAgentNetwork
-    :param number_of_layers: Number of Layers in the MultiAgentNetwork
-    :param number_of_neurons_per_layer: Number of Neurons each Layer will have
-    :param learning_rate: Learning rate for Neurons in the MultiAgentNetwork
+    :param network_settings: Settings for the MultiAgentNetwork
     """
+
     def __init__(
         self,
         observation_size: int,
         number_of_actions: int,
-        number_of_layers: int,
-        number_of_neurons_per_layer: int,
-        learning_rate: float,
+        network_settings: narla.multi_agent_network.MultiAgentNetworkSettings,
     ):
+        self._network_settings = network_settings
+
         self._history = narla.history.History(storage_size=1_000_000)
         self._layers: List[narla.multi_agent_network.Layer] = self._build_layers(
             observation_size=observation_size,
-            learning_rate=learning_rate,
             number_of_actions=number_of_actions,
-            number_of_layers=number_of_layers,
-            number_of_neurons_per_layer=number_of_neurons_per_layer,
+            network_settings=network_settings,
         )
 
     def act(self, observation: torch.Tensor) -> torch.Tensor:
@@ -47,31 +46,30 @@ class MultiAgentNetwork:
     @staticmethod
     def _build_layers(
         observation_size: int,
-        learning_rate: float,
         number_of_actions: int,
-        number_of_layers: int,
-        number_of_neurons_per_layer: int
+        network_settings: narla.multi_agent_network.MultiAgentNetworkSettings,
     ) -> List[narla.multi_agent_network.Layer]:
         layers: List[narla.multi_agent_network.Layer] = []
-        for layer_index in range(number_of_layers):
+        for layer_index in range(network_settings.number_of_layers):
 
-            if layer_index == number_of_layers - 1:
+            if layer_index == network_settings.number_of_layers - 1:
                 # On the last layer there's just a single output neuron
+                last_layer_settings = network_settings.layer_settings.clone()
+                last_layer_settings.number_of_neurons_per_layer = 1
+
                 layer = narla.multi_agent_network.Layer(
                     observation_size=observation_size,
-                    learning_rate=learning_rate,
                     number_of_actions=number_of_actions,
-                    number_of_neurons=1
+                    layer_settings=last_layer_settings,
                 )
 
             else:
                 layer = narla.multi_agent_network.Layer(
                     observation_size=observation_size,
-                    learning_rate=learning_rate,
                     number_of_actions=2,
-                    number_of_neurons=number_of_neurons_per_layer
+                    layer_settings=network_settings.layer_settings,
                 )
-                observation_size = number_of_neurons_per_layer
+                observation_size = network_settings.layer_settings.number_of_neurons_per_layer
 
             layers.append(layer)
 
@@ -92,6 +90,13 @@ class MultiAgentNetwork:
         Access the History of the MultiAgentNetwork
         """
         return self._history
+
+    @property
+    def layers(self) -> List[narla.multi_agent_network.Layer]:
+        """
+        Access the Layers of the MultiAgentNetwork
+        """
+        return self._layers
 
     def learn(self):
         """
