@@ -1,5 +1,8 @@
-import narla
+from __future__ import annotations
+
 import subprocess
+
+import narla
 
 
 class Job:
@@ -9,7 +12,8 @@ class Job:
     :param settings: Settings for an individual MultiAgentNetwork
     :param process: Process the Job is running on
     """
-    def __init__(self, settings: narla.Settings, process: subprocess.Popen):
+
+    def __init__(self, settings: narla.settings.Settings, process: subprocess.Popen):
         self._settings = settings
         self._process: subprocess.Popen = process
 

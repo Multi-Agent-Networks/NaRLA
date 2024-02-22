@@ -1,10 +1,14 @@
+from __future__ import annotations
+
 import os
 import sys
 import time
-import tqdm
-import narla
 import subprocess
 from typing import Dict, List
+
+import tqdm
+
+import narla
 
 
 class Runner:
@@ -15,20 +19,20 @@ class Runner:
     :param available_gpus: List of available GPU device IDs
     :param jobs_per_gpu: Number of Jobs to put on each GPU
     """
-    def __init__(self, all_settings: List[narla.Settings], available_gpus: List[int] = (0,), jobs_per_gpu: int = 1):
+
+    def __init__(
+        self,
+        all_settings: List[narla.settings.Settings],
+        available_gpus: List[int] = (0,),
+        jobs_per_gpu: int = 1,
+    ):
         self._all_settings = all_settings
         self._available_gpus = available_gpus
         self._jobs_per_gpu = jobs_per_gpu
 
         # Internal dictionary mapping GPU ID to list of Jobs running on that device
-        self._jobs_on_gpus: Dict[int, List[narla.runner.Job]] = {
-            gpu: [] for gpu in available_gpus
-        }
-        self._progress_bar = tqdm.tqdm(
-            total=len(all_settings),
-            position=0,
-            leave=True
-        )
+        self._jobs_on_gpus: Dict[int, List[narla.runner.Job]] = {gpu: [] for gpu in available_gpus}
+        self._progress_bar = tqdm.tqdm(total=len(all_settings), position=0, leave=True)
 
     def execute(self):
         """
@@ -45,8 +49,8 @@ class Runner:
         self._progress_bar.close()
 
     @staticmethod
-    def _execute_job(settings: narla.Settings, gpu: int):
-        settings.gpu = gpu
+    def _execute_job(settings: narla.settings.Settings, gpu: int):
+        settings.trial_settings.gpu = gpu
 
         trial_path = narla.io.format_trial_path(settings)
         narla.io.make_directories(trial_path)
@@ -57,13 +61,10 @@ class Runner:
             args=[f"{sys.executable} main.py " + settings.to_command_string()],
             shell=True,
             stdout=open(log_file, "a"),
-            stderr=subprocess.STDOUT
+            stderr=subprocess.STDOUT,
         )
 
-        job = narla.runner.Job(
-            settings=settings,
-            process=process
-        )
+        job = narla.runner.Job(settings=settings, process=process)
         time.sleep(1)
 
         return job
@@ -73,10 +74,7 @@ class Runner:
             while len(running_jobs) < self._jobs_per_gpu:
                 settings = self._all_settings.pop(0)
 
-                job = self._execute_job(
-                    settings=settings,
-                    gpu=gpu
-                )
+                job = self._execute_job(settings=settings, gpu=gpu)
                 running_jobs.append(job)
 
     def is_done(self) -> bool:

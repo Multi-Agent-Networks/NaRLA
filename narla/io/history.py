@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import os
+
 import narla
 
 
@@ -9,8 +12,8 @@ def save_history_as_data_frame(name: str, history: narla.history.History):
     :param name: Name of DataFrame
     :param history: History object
     """
-    if narla.settings.results_directory:
+    if narla.experiment_settings.trial_settings.results_directory:
         data_frame = history.to_data_frame()
 
-        file = os.path.join(narla.io.format_trial_path(narla.settings), name + ".csv")
+        file = os.path.join(narla.io.format_trial_path(narla.experiment_settings), name + ".csv")
         data_frame.to_csv(file)

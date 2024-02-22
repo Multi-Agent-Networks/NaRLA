@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-import torch
-import narla
-import numpy as np
 from typing import Tuple
+
+import numpy as np
+import torch
+
+import narla
 
 
 class Environment:
@@ -13,6 +15,7 @@ class Environment:
     :param name: Name of the environment
     :param render: If ``True`` will visualize the environment
     """
+
     def __init__(self, name: narla.environments.AvailableEnvironments, render: bool = False):
         self._name = name
         self._render = render
@@ -29,13 +32,13 @@ class Environment:
 
     @staticmethod
     def _cast_observation(observation: np.ndarray) -> torch.Tensor:
-        observation = torch.tensor([observation.tolist()], device=narla.settings.device)
+        observation = torch.tensor([observation.tolist()])
 
         return observation
 
     @staticmethod
     def _cast_reward(reward: float) -> torch.Tensor:
-        reward = torch.tensor([reward], device=narla.settings.device)
+        reward = torch.tensor([reward])
 
         return reward
 
