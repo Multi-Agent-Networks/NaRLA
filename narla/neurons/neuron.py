@@ -27,6 +27,13 @@ class Neuron(metaclass=abc.ABCMeta):
         """
         pass
 
+    @property
+    def history(self) -> narla.history.History:
+        """
+        Access the History of the Neuron
+        """
+        return self._history
+
     @abc.abstractmethod
     def learn(self):
         """
