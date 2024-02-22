@@ -25,4 +25,4 @@ Install
     # Download and install the NaRLA packages
     cd ~/projects
     git clone git@github.com:Multi-Agent-Networks/NaRLA.git
-    narla -m pip install -e NaRLA
+    narla -m pip install -e NaRLA --no-use-pep517
