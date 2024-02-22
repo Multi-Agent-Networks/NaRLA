@@ -18,7 +18,7 @@ Install
     cd ~/python_environments
 
     # Create a virtual environment
-    python3.8 -m venv narla
+    python3.8 -m venv --system-site-packages narla
     alias narla=~/python_environments/narla/bin/python3
     echo 'alias narla=~/python_environments/narla/bin/python3' >> ~/.bashrc
 

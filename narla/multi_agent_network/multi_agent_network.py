@@ -13,6 +13,7 @@ class MultiAgentNetwork:
     :param number_of_actions: Number of actions available to the MultiAgentNetwork
     :param number_of_layers: Number of Layers in the MultiAgentNetwork
     :param number_of_neurons_per_layer: Number of Neurons each Layer will have
+    :param learning_rate: Learning rate for Neurons in the MultiAgentNetwork
     """
     def __init__(
         self,

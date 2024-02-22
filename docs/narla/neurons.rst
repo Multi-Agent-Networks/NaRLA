@@ -51,3 +51,20 @@ Neuron
    :members:
    :undoc-members:
    :show-inheritance:
+
+policy_gradient
+------
+
+Network
+~~~~~~~
+.. autoclass:: narla.neurons.policy_gradient.Network
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Neuron
+~~~~~~
+.. autoclass:: narla.neurons.policy_gradient.Neuron
+   :members:
+   :undoc-members:
+   :show-inheritance:

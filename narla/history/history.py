@@ -55,9 +55,9 @@ class History:
             else:
                 self._history[key].append(value)
 
-            # if len(self._history[key]) >= self.storage_size:
-            #     gc.collect()
-            #     torch.cuda.empty_cache()
+            if len(self._history[key]) >= self.storage_size:
+                gc.collect()
+                torch.cuda.empty_cache()
 
     def sample(self, names: List[str], sample_size: int, from_most_recent: int = 10_000) -> List[List[torch.Tensor]]:
         sample = []

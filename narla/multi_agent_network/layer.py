@@ -8,6 +8,7 @@ class Layer:
     A Layer contains a list of Neurons
 
     :param observation_size: Size of the observation which the Layer will receive
+    :param learning_rate: Learning rate for Neurons in the Layer
     :param number_of_actions: Number of actions available to the Layer
     :param number_of_neurons: Number of Neurons in the Layer
     """
