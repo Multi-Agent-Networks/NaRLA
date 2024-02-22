@@ -26,5 +26,6 @@ NaRLA documentation
    narla/history
    narla/multi_agent_network
    narla/neurons
+   narla/rewards
    narla/runner
    narla/settings

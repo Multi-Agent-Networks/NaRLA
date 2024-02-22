@@ -18,9 +18,9 @@ Runner
    :show-inheritance:
 
 
-Settings
---------
-.. autoclass:: narla.runner.Settings
+RunnerSettings
+--------------
+.. autoclass:: narla.runner.RunnerSettings
    :members:
    :undoc-members:
    :show-inheritance:

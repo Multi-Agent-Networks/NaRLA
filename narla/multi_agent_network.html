@@ -60,6 +60,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="neurons.html">narla.neurons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rewards.html">narla.rewards</a></li>
 <li class="toctree-l1"><a class="reference internal" href="runner.html">narla.runner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">narla.Settings</a></li>
 </ul>
@@ -94,7 +95,7 @@
 <h2>Layer<a class="headerlink" href="#layer" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="narla.multi_agent_network.Layer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">Layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">Layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A Layer contains a list of Neurons</p>
 <dl class="field-list simple">
@@ -131,6 +132,17 @@
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="narla.multi_agent_network.Layer.layer_output">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">layer_output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">torch.Tensor</span></em><a class="headerlink" href="#narla.multi_agent_network.Layer.layer_output" title="Permalink to this definition"></a></dt>
+<dd><p>Access the output of the Layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.multi_agent_network.Layer.learn">
 <span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer.learn" title="Permalink to this definition"></a></dt>
@@ -155,7 +167,7 @@
 <h2>MultiAgentNetwork<a class="headerlink" href="#multiagentnetwork" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetwork">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">MultiAgentNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons_per_layer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network.html#MultiAgentNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">MultiAgentNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons_per_layer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network.html#MultiAgentNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A MultiAgentNetwork contains a list of Layers</p>
 <dl class="field-list simple">

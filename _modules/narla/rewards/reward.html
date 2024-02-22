@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>narla.environments.action_space &mdash; NaRLA  documentation</title>
+  <title>narla.rewards.reward &mdash; NaRLA  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -73,7 +73,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">narla.environments.action_space</li>
+      <li class="breadcrumb-item active">narla.rewards.reward</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -82,43 +82,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for narla.environments.action_space</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">torch</span>
+  <h1>Source code for narla.rewards.reward</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">narla</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
 
-<div class="viewcode-block" id="ActionSpace"><a class="viewcode-back" href="../../../narla/environments.html#narla.environments.ActionSpace">[docs]</a><span class="k">class</span> <span class="nc">ActionSpace</span><span class="p">:</span>
+<div class="viewcode-block" id="Reward"><a class="viewcode-back" href="../../../narla/rewards.html#narla.rewards.Reward">[docs]</a><span class="k">class</span> <span class="nc">Reward</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ActionSpace for the Environment</span>
-
-<span class="sd">    :param number_of_actions: Number of available actions in the environment</span>
+<span class="sd">    Reward</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_actions</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_actions</span> <span class="o">=</span> <span class="n">number_of_actions</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">number_of_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="Reward.compute"><a class="viewcode-back" href="../../../narla/rewards.html#narla.rewards.Reward.compute">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">current_layer</span><span class="p">:</span> <span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="p">,</span>
+        <span class="n">next_layer</span><span class="p">:</span> <span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the number of actions</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_actions</span>
+<span class="sd">        Compute the reward based on the Layer&#39;s activity</span>
 
-<div class="viewcode-block" id="ActionSpace.sample"><a class="viewcode-back" href="../../../narla/environments.html#narla.environments.ActionSpace.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sample an action from the Space</span>
+<span class="sd">        :param current_layer: Current layer</span>
+<span class="sd">        :param next_layer: Next layer, is ``None`` if ``current_layer`` is the last layer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_number_of_actions</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">action</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">narla</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">device</span><span class="p">)</span></div>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Shape of the ActionSpace</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">()</span></div>
+        <span class="k">pass</span></div></div>
 </pre></div>
 
            </div>

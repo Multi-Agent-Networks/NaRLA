@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../narla/history.html">narla.history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../narla/multi_agent_network.html">narla.multi_agent_network</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../narla/neurons.html">narla.neurons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../narla/rewards.html">narla.rewards</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../narla/runner.html">narla.runner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../narla/settings.html">narla.Settings</a></li>
 </ul>
@@ -110,6 +111,13 @@
 <span class="sd">        :param observation: Observation from the Neuron&#39;s local environment</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">History</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Access the History of the Neuron</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history</span>
 
 <div class="viewcode-block" id="Neuron.learn"><a class="viewcode-back" href="../../../narla/neurons.html#narla.neurons.Neuron.learn">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
