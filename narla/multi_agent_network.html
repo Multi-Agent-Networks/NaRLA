@@ -95,13 +95,14 @@
 <h2>Layer<a class="headerlink" href="#layer" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="narla.multi_agent_network.Layer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">Layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">Layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A Layer contains a list of Neurons</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the Layer will receive</p></li>
+<li><p><strong>learning_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Learning rate for Neurons in the Layer</p></li>
 <li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the Layer</p></li>
 <li><p><strong>number_of_neurons</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of Neurons in the Layer</p></li>
 </ul>
@@ -167,7 +168,7 @@
 <h2>MultiAgentNetwork<a class="headerlink" href="#multiagentnetwork" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetwork">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">MultiAgentNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons_per_layer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network.html#MultiAgentNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">MultiAgentNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons_per_layer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network.html#MultiAgentNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A MultiAgentNetwork contains a list of Layers</p>
 <dl class="field-list simple">
@@ -177,6 +178,7 @@
 <li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the MultiAgentNetwork</p></li>
 <li><p><strong>number_of_layers</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of Layers in the MultiAgentNetwork</p></li>
 <li><p><strong>number_of_neurons_per_layer</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of Neurons each Layer will have</p></li>
+<li><p><strong>learning_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Learning rate for Neurons in the MultiAgentNetwork</p></li>
 </ul>
 </dd>
 </dl>

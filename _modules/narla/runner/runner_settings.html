@@ -112,6 +112,9 @@
     <span class="n">jobs_per_gpu</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of Jobs to put on each GPU&quot;&quot;&quot;</span>
 
+    <span class="n">learning_rates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1e-4</span><span class="p">,)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Learning rates for the individual neuron networks&quot;&quot;&quot;</span>
+
     <span class="n">neuron_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AvailableNeurons</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">AvailableNeurons</span><span class="o">.</span><span class="n">DEEP_Q</span><span class="p">,</span> <span class="n">AvailableNeurons</span><span class="o">.</span><span class="n">ACTOR_CRITIC</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;What to of neuron to use in the network&quot;&quot;&quot;</span>
 
