@@ -11,19 +11,12 @@ class GymEnvironment(Environment):
     """
     Wrapper on `Gymnasium Environments <https://gymnasium.farama.org/>`_
     """
-    def __init__(self, name: narla.environments.AvailableEnvironments, render: bool = False):
-        super().__init__(
-            name=name,
-            render=render
-        )
 
-        self._gym_environment = self._build_gym_environment(
-            name=name,
-            render=render
-        )
-        self._action_space = narla.environments.ActionSpace(
-            number_of_actions=self._gym_environment.action_space.n
-        )
+    def __init__(self, name: narla.environments.AvailableEnvironments, render: bool = False):
+        super().__init__(name=name, render=render)
+
+        self._gym_environment = self._build_gym_environment(name=name, render=render)
+        self._action_space = narla.environments.ActionSpace(number_of_actions=self._gym_environment.action_space.n)
 
     @staticmethod
     def _build_gym_environment(name: narla.environments.AvailableEnvironments, render: bool) -> gym.Env:
@@ -31,10 +24,7 @@ class GymEnvironment(Environment):
         if render:
             render_mode = "human"
 
-        gym_environment = gym.make(
-            id=name.value,
-            render_mode=render_mode
-        )
+        gym_environment = gym.make(id=name.value, render_mode=render_mode)
 
         return gym_environment
 

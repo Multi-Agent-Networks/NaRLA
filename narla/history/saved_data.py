@@ -1,4 +1,5 @@
 EPISODE_COUNT = "episode_count"
+EPISODE_REWARD = "episode_reward"
 
 ACTION = "action"
 OBSERVATION = "observation"

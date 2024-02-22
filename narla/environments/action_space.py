@@ -10,6 +10,7 @@ class ActionSpace:
 
     :param number_of_actions: Number of available actions in the environment
     """
+
     def __init__(self, number_of_actions: int):
         self._number_of_actions = number_of_actions
 
@@ -26,7 +27,7 @@ class ActionSpace:
         """
         action = np.random.randint(self._number_of_actions)
 
-        return torch.tensor([action], device=narla.settings.device)
+        return torch.tensor([action], device=narla.trial_settings.device)
 
     @property
     def shape(self) -> Tuple[int, ...]:
