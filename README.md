@@ -10,16 +10,16 @@ For installation instructions and API documentation please refer to the [docs](h
 ## Run main
 ```bash 
 narla main.py \
-  --results_directory Results \
-  --environment CART_POLE \
-  --neuron_type POLICY_GRADIENT
+  --trial_settings.results_directory Results \
+  --environment_settings.environment CART_POLE \
+  --multi_agent_network_settings.layer_settings.neuron_settings.neuron_type POLICY_GRADIENT
 ```
 
 ## Execute runner
 Run `main.py` with a product of all the settings
 ```bash 
 narla scripts/run_jobs.py \
-  --settings.results_directory RunnerResults \
+  --settings.trial_settings.results_directory RunnerResults \
   --environments CART_POLE \
   --gpus 0 1 2 3 \
   --jobs_per_gpu 5 \
