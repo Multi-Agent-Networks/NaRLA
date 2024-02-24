@@ -6,7 +6,7 @@ import numpy as np
 import torch
 
 import narla
-from narla.neurons import Neuron as BaseNeuron
+from narla.neurons.neuron import Neuron as BaseNeuron
 
 TAU = 0.005
 GAMMA = 0.99

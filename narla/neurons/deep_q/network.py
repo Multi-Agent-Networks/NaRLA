@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import copy
+
 import torch
-from narla.neurons import Network as BaseNetwork
+
+from narla.neurons.network import Network as BaseNetwork
 
 
 class Network(BaseNetwork):
@@ -12,7 +14,7 @@ class Network(BaseNetwork):
         self._neural_network = self._build_network(
             input_size=input_size,
             output_size=output_size,
-            embedding_size=embedding_size
+            embedding_size=embedding_size,
         )
 
     @staticmethod
@@ -22,7 +24,7 @@ class Network(BaseNetwork):
             torch.nn.LeakyReLU(),
             torch.nn.Linear(embedding_size, embedding_size),
             torch.nn.LeakyReLU(),
-            torch.nn.Linear(embedding_size, output_size)
+            torch.nn.Linear(embedding_size, output_size),
         ]
 
         return torch.nn.Sequential(*layers)

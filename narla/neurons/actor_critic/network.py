@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import torch
-from typing import Tuple
-from narla.neurons import Network as BaseNetwork
+
+from narla.neurons.network import Network as BaseNetwork
 
 
 class Network(BaseNetwork):
@@ -11,7 +11,7 @@ class Network(BaseNetwork):
 
         self._backbone = self._build_backbone(
             input_size=input_size,
-            embedding_size=embedding_size
+            embedding_size=embedding_size,
         )
 
         self._action_head = torch.nn.Linear(embedding_size, output_size)
@@ -22,7 +22,7 @@ class Network(BaseNetwork):
             torch.nn.Linear(input_size, embedding_size),
             torch.nn.LeakyReLU(),
             torch.nn.Linear(embedding_size, embedding_size),
-            torch.nn.LeakyReLU()
+            torch.nn.LeakyReLU(),
         ]
 
         return torch.nn.Sequential(*layers)

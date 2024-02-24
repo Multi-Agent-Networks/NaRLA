@@ -3,7 +3,7 @@ from __future__ import annotations
 import torch
 
 import narla
-from narla.neurons import Neuron as BaseNeuron
+from narla.neurons.neuron import Neuron as BaseNeuron
 
 GAMMA = 0.99
 
