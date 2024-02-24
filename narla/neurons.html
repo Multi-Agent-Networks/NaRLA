@@ -69,8 +69,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#policy-gradient">policy_gradient</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Network</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Neuron</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Neuron</a></li>
 </ul>
 </li>
 </ul>
@@ -108,35 +108,365 @@
 <h1>narla.neurons<a class="headerlink" href="#narla-neurons" title="Permalink to this headline"></a></h1>
 <section id="network">
 <h2>Network<a class="headerlink" href="#network" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.neurons.Network">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><a class="reference internal" href="../_modules/narla/neurons/network.html#Network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Network" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.Network.forward">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/network.html#Network.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Network.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.neurons.Network.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#narla.neurons.Network.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="neuron">
 <h2>Neuron<a class="headerlink" href="#neuron" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.neurons.Neuron">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.</span></span><span class="sig-name descname"><span class="pre">Neuron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Neuron base class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the Neuron will receive</p></li>
+<li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the Neuron</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.Neuron.act">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron.act" title="Permalink to this definition"></a></dt>
+<dd><p>Take an action based on the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Observation from the Neuron’s local environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="narla.neurons.Neuron.history">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="history.html#narla.history.History" title="narla.history.history.History"><span class="pre">narla.history.history.History</span></a></em><a class="headerlink" href="#narla.neurons.Neuron.history" title="Permalink to this definition"></a></dt>
+<dd><p>Access the History of the Neuron</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="history.html#narla.history.History" title="narla.history.history.History"><code class="xref py py-class docutils literal notranslate"><span class="pre">History</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.Neuron.learn">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron.learn" title="Permalink to this definition"></a></dt>
+<dd><p>Update the Neuron’s internal Network</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.Neuron.record">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron.record" title="Permalink to this definition"></a></dt>
+<dd><p>Record information in the Neuron’s internal History. This stored data will be used for learning</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Keyword arguments</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="actor-critic">
 <h2>actor_critic<a class="headerlink" href="#actor-critic" title="Permalink to this headline"></a></h2>
 <section id="id1">
 <h3>Network<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.neurons.actor_critic.Network">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.actor_critic.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/network.html#Network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Network" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#narla.neurons.Network" title="narla.neurons.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.neurons.network.Network</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.actor_critic.Network.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/network.html#Network.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Network.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.neurons.actor_critic.Network.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#narla.neurons.actor_critic.Network.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="id2">
 <h3>Neuron<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.neurons.actor_critic.Neuron">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.actor_critic.</span></span><span class="sig-name descname"><span class="pre">Neuron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.neurons.neuron.Neuron</span></code></a></p>
+<p>The ActorCritic Neuron is based on this <a class="reference external" href="https://github.com/pytorch/examples/blob/main/reinforcement_learning/actor_critic.py">PyTorch example</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the Neuron will receive</p></li>
+<li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the Neuron</p></li>
+<li><p><strong>learning_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Learning rate for the Neuron’s Network</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.actor_critic.Neuron.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron.act" title="Permalink to this definition"></a></dt>
+<dd><p>Take an action based on the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Observation from the Neuron’s local environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.actor_critic.Neuron.get_returns">
+<span class="sig-name descname"><span class="pre">get_returns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron.get_returns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron.get_returns" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.actor_critic.Neuron.learn">
+<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron.learn" title="Permalink to this definition"></a></dt>
+<dd><p>Update the Neuron’s internal Network</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 <section id="deep-q">
 <h2>deep_q<a class="headerlink" href="#deep-q" title="Permalink to this headline"></a></h2>
 <section id="id3">
 <h3>Network<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.neurons.deep_q.Network">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.deep_q.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/network.html#Network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Network" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#narla.neurons.Network" title="narla.neurons.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.neurons.network.Network</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.deep_q.Network.clone">
+<span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/network.html#Network.clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Network.clone" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#narla.neurons.deep_q.Network" title="narla.neurons.deep_q.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.deep_q.Network.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/network.html#Network.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Network.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.neurons.deep_q.Network.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#narla.neurons.deep_q.Network.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="id4">
 <h3>Neuron<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.deep_q.</span></span><span class="sig-name descname"><span class="pre">Neuron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.neurons.neuron.Neuron</span></code></a></p>
+<p>The DeepQ Neuron is based on this <a class="reference external" href="https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html">PyTorch example</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the Neuron will receive</p></li>
+<li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the Neuron</p></li>
+<li><p><strong>learning_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Learning rate for the Neuron’s Network</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.act" title="Permalink to this definition"></a></dt>
+<dd><p>Take an action based on the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Observation from the Neuron’s local environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron.learn">
+<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.learn" title="Permalink to this definition"></a></dt>
+<dd><p>Update the Neuron’s internal Network</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron.sample_history">
+<span class="sig-name descname"><span class="pre">sample_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.sample_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.sample_history" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron.update_target_network">
+<span class="sig-name descname"><span class="pre">update_target_network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.update_target_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.update_target_network" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 <section id="policy-gradient">
 <h2>policy_gradient<a class="headerlink" href="#policy-gradient" title="Permalink to this headline"></a></h2>
-<section id="id5">
-<h3>Network<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h3>
-</section>
 <section id="id6">
-<h3>Neuron<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h3>
+<h3>Network<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.neurons.policy_gradient.Network">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.policy_gradient.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/network.html#Network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Network" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#narla.neurons.Network" title="narla.neurons.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.neurons.network.Network</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.policy_gradient.Network.clone">
+<span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/network.html#Network.clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Network.clone" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#narla.neurons.policy_gradient.Network" title="narla.neurons.policy_gradient.network.Network"><code class="xref py py-class docutils literal notranslate"><span class="pre">Network</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.policy_gradient.Network.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/network.html#Network.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Network.forward" title="Permalink to this definition"></a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.neurons.policy_gradient.Network.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#narla.neurons.policy_gradient.Network.training" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id7">
+<h3>Neuron<a class="headerlink" href="#id7" title="Permalink to this headline"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.neurons.policy_gradient.Neuron">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.neurons.policy_gradient.</span></span><span class="sig-name descname"><span class="pre">Neuron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/neuron.html#Neuron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Neuron" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.neurons.neuron.Neuron</span></code></a></p>
+<p>PolicyGradient Neuron</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the Neuron will receive</p></li>
+<li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the Neuron</p></li>
+<li><p><strong>learning_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Learning rate for the Neuron’s Network</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.policy_gradient.Neuron.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/neuron.html#Neuron.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Neuron.act" title="Permalink to this definition"></a></dt>
+<dd><p>Take an action based on the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Observation from the Neuron’s local environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.policy_gradient.Neuron.get_returns">
+<span class="sig-name descname"><span class="pre">get_returns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/neuron.html#Neuron.get_returns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Neuron.get_returns" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.neurons.policy_gradient.Neuron.learn">
+<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Neuron.learn" title="Permalink to this definition"></a></dt>
+<dd><p>Update the Neuron’s internal Network</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 </section>
