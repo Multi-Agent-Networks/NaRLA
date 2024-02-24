@@ -92,9 +92,84 @@
 <h1>narla.settings<a class="headerlink" href="#narla-settings" title="Permalink to this headline"></a></h1>
 <section id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.settings.Settings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.settings.</span></span><span class="sig-name descname"><span class="pre">Settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">environment_settings=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_agent_network_settings=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_settings=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/settings/settings.html#Settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.settings.Settings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">narla.settings.base_settings.BaseSettings</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.Settings.environment_settings">
+<span class="sig-name descname"><span class="pre">environment_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">narla.environments.environment_settings.EnvironmentSettings</span></em><a class="headerlink" href="#narla.settings.Settings.environment_settings" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.Settings.multi_agent_network_settings">
+<span class="sig-name descname"><span class="pre">multi_agent_network_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="multi_agent_network.html#narla.multi_agent_network.MultiAgentNetworkSettings" title="narla.multi_agent_network.multi_agent_network_settings.MultiAgentNetworkSettings"><span class="pre">narla.multi_agent_network.multi_agent_network_settings.MultiAgentNetworkSettings</span></a></em><a class="headerlink" href="#narla.settings.Settings.multi_agent_network_settings" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.Settings.trial_settings">
+<span class="sig-name descname"><span class="pre">trial_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#narla.settings.TrialSettings" title="narla.settings.trial_settings.TrialSettings"><span class="pre">narla.settings.trial_settings.TrialSettings</span></a></em><a class="headerlink" href="#narla.settings.Settings.trial_settings" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="trialsettings">
 <h2>TrialSettings<a class="headerlink" href="#trialsettings" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.settings.TrialSettings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.settings.</span></span><span class="sig-name descname"><span class="pre">TrialSettings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_episodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_every</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/settings/trial_settings.html#TrialSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.settings.TrialSettings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">narla.settings.base_settings.BaseSettings</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.TrialSettings.batch_size">
+<span class="sig-name descname"><span class="pre">batch_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">128</span></em><a class="headerlink" href="#narla.settings.TrialSettings.batch_size" title="Permalink to this definition"></a></dt>
+<dd><p>Batch size to use during training</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.TrialSettings.device">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cpu'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'cuda'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cpu'</span></em><a class="headerlink" href="#narla.settings.TrialSettings.device" title="Permalink to this definition"></a></dt>
+<dd><p>Device to put the network on</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.TrialSettings.gpu">
+<span class="sig-name descname"><span class="pre">gpu</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#narla.settings.TrialSettings.gpu" title="Permalink to this definition"></a></dt>
+<dd><p>GPU ID to run on</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.TrialSettings.maximum_episodes">
+<span class="sig-name descname"><span class="pre">maximum_episodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10000</span></em><a class="headerlink" href="#narla.settings.TrialSettings.maximum_episodes" title="Permalink to this definition"></a></dt>
+<dd><p>Total number of episodes to run for</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.TrialSettings.random_seed">
+<span class="sig-name descname"><span class="pre">random_seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#narla.settings.TrialSettings.random_seed" title="Permalink to this definition"></a></dt>
+<dd><p>Random seed</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.TrialSettings.results_directory">
+<span class="sig-name descname"><span class="pre">results_directory</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#narla.settings.TrialSettings.results_directory" title="Permalink to this definition"></a></dt>
+<dd><p>Path to save results</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.TrialSettings.save_every">
+<span class="sig-name descname"><span class="pre">save_every</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000</span></em><a class="headerlink" href="#narla.settings.TrialSettings.save_every" title="Permalink to this definition"></a></dt>
+<dd><p>Save results every n steps</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.settings.TrialSettings.trial_id">
+<span class="sig-name descname"><span class="pre">trial_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#narla.settings.TrialSettings.trial_id" title="Permalink to this definition"></a></dt>
+<dd><p>Unique ID of the trial being run, corresponds to the path of data saving &lt;results_directory&gt;/&lt;trial_id&gt;/</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

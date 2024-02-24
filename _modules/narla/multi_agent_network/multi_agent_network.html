@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>narla.multi_agent_network.multi_agent_network &mdash; NaRLA  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/network.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">NaRLA: Neurons as Reinforcement Learning Agents</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started/installing.html">Installing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">NaRLA</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../narla/environments.html">narla.environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../narla/history.html">narla.history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../narla/multi_agent_network.html">narla.multi_agent_network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../narla/neurons.html">narla.neurons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../narla/rewards.html">narla.rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../narla/runner.html">narla.runner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../narla/settings.html">narla.settings</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">NaRLA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">narla.multi_agent_network.multi_agent_network</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for narla.multi_agent_network.multi_agent_network</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">import</span> <span class="nn">narla</span>
+
+
+<div class="viewcode-block" id="MultiAgentNetwork"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.MultiAgentNetwork">[docs]</a><span class="k">class</span> <span class="nc">MultiAgentNetwork</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A MultiAgentNetwork contains a list of Layers</span>
+
+<span class="sd">    :param observation_size: Size of the observation which the MultiAgentNetwork will receive</span>
+<span class="sd">    :param number_of_actions: Number of actions available to the MultiAgentNetwork</span>
+<span class="sd">    :param network_settings: Settings for the MultiAgentNetwork</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">observation_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">number_of_actions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">network_settings</span><span class="p">:</span> <span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">MultiAgentNetworkSettings</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_network_settings</span> <span class="o">=</span> <span class="n">network_settings</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span> <span class="o">=</span> <span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">History</span><span class="p">(</span><span class="n">storage_size</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_layers</span><span class="p">(</span>
+            <span class="n">observation_size</span><span class="o">=</span><span class="n">observation_size</span><span class="p">,</span>
+            <span class="n">number_of_actions</span><span class="o">=</span><span class="n">number_of_actions</span><span class="p">,</span>
+            <span class="n">network_settings</span><span class="o">=</span><span class="n">network_settings</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="MultiAgentNetwork.act"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.MultiAgentNetwork.act">[docs]</a>    <span class="k">def</span> <span class="nf">act</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Take an action based on the observation</span>
+
+<span class="sd">        :param observation: Observation from the MultiAgentNetwork environment</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_layer_action</span> <span class="o">=</span> <span class="n">observation</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layers</span><span class="p">:</span>
+            <span class="n">previous_layer_action</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">previous_layer_action</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">previous_layer_action</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_build_layers</span><span class="p">(</span>
+        <span class="n">observation_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">number_of_actions</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">network_settings</span><span class="p">:</span> <span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">MultiAgentNetworkSettings</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="p">]:</span>
+        <span class="n">layers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">layer_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">network_settings</span><span class="o">.</span><span class="n">number_of_layers</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="n">layer_index</span> <span class="o">==</span> <span class="n">network_settings</span><span class="o">.</span><span class="n">number_of_layers</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># On the last layer there&#39;s just a single output neuron</span>
+                <span class="n">last_layer_settings</span> <span class="o">=</span> <span class="n">network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                <span class="n">last_layer_settings</span><span class="o">.</span><span class="n">number_of_neurons_per_layer</span> <span class="o">=</span> <span class="mi">1</span>
+
+                <span class="n">layer</span> <span class="o">=</span> <span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="p">(</span>
+                    <span class="n">observation_size</span><span class="o">=</span><span class="n">observation_size</span><span class="p">,</span>
+                    <span class="n">number_of_actions</span><span class="o">=</span><span class="n">number_of_actions</span><span class="p">,</span>
+                    <span class="n">layer_settings</span><span class="o">=</span><span class="n">last_layer_settings</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">layer</span> <span class="o">=</span> <span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="p">(</span>
+                    <span class="n">observation_size</span><span class="o">=</span><span class="n">observation_size</span><span class="p">,</span>
+                    <span class="n">number_of_actions</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">layer_settings</span><span class="o">=</span><span class="n">network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">observation_size</span> <span class="o">=</span> <span class="n">network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="o">.</span><span class="n">number_of_neurons_per_layer</span>
+
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">layers</span>
+
+<div class="viewcode-block" id="MultiAgentNetwork.distribute_to_layers"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.MultiAgentNetwork.distribute_to_layers">[docs]</a>    <span class="k">def</span> <span class="nf">distribute_to_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Distribute data to the Layers</span>
+
+<span class="sd">        :param kwargs: Key word arguments to be distributed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layers</span><span class="p">:</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">distribute_to_neurons</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">history</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">History</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Access the History of the MultiAgentNetwork</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Access the Layers of the MultiAgentNetwork</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layers</span>
+
+<div class="viewcode-block" id="MultiAgentNetwork.learn"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.MultiAgentNetwork.learn">[docs]</a>    <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute learning phase for Layers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layers</span><span class="p">:</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">learn</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MultiAgentNetwork.record"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.MultiAgentNetwork.record">[docs]</a>    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Record data into the MultiAgentNetwork&#39;s History</span>
+
+<span class="sd">        :param kwargs: Key word arguments to be stored in the History</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Jordan Ott.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

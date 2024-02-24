@@ -95,15 +95,216 @@
 <h1>narla.multi_agent_network<a class="headerlink" href="#narla-multi-agent-network" title="Permalink to this headline"></a></h1>
 <section id="layer">
 <h2>Layer<a class="headerlink" href="#layer" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.multi_agent_network.Layer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">Layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Layer contains a list of Neurons</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the Layer will receive</p></li>
+<li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the Layer</p></li>
+<li><p><strong>layer_settings</strong> (<a class="reference internal" href="#narla.multi_agent_network.LayerSettings" title="narla.multi_agent_network.layer_settings.LayerSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">LayerSettings</span></code></a>) – Settings for the Layer</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.multi_agent_network.Layer.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer.act" title="Permalink to this definition"></a></dt>
+<dd><p>Take an action based on the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Observation from the Layer’s local environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.multi_agent_network.Layer.distribute_to_neurons">
+<span class="sig-name descname"><span class="pre">distribute_to_neurons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer.distribute_to_neurons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer.distribute_to_neurons" title="Permalink to this definition"></a></dt>
+<dd><p>Distribute data to the Neurons</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Key word arguments to be distributed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="narla.multi_agent_network.Layer.layer_output">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">layer_output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">torch.Tensor</span></em><a class="headerlink" href="#narla.multi_agent_network.Layer.layer_output" title="Permalink to this definition"></a></dt>
+<dd><p>Access the output of the Layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.multi_agent_network.Layer.learn">
+<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer.learn" title="Permalink to this definition"></a></dt>
+<dd><p>Execute learning phase for Neurons</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="narla.multi_agent_network.Layer.neurons">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">neurons</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="neurons.html#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><span class="pre">narla.neurons.neuron.Neuron</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#narla.multi_agent_network.Layer.neurons" title="Permalink to this definition"></a></dt>
+<dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="neurons.html#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">Neuron</span></code></a>]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>rtype</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="narla.multi_agent_network.Layer.number_of_neurons">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_neurons</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#narla.multi_agent_network.Layer.number_of_neurons" title="Permalink to this definition"></a></dt>
+<dd><p>Number of Neurons in the Layer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="layersettings">
 <h2>LayerSettings<a class="headerlink" href="#layersettings" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.multi_agent_network.LayerSettings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">LayerSettings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neuron_settings=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons_per_layer=15</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer_settings.html#LayerSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.LayerSettings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">narla.settings.base_settings.BaseSettings</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.multi_agent_network.LayerSettings.neuron_settings">
+<span class="sig-name descname"><span class="pre">neuron_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="neurons.html#narla.neurons.NeuronSettings" title="narla.neurons.neuron_settings.NeuronSettings"><span class="pre">narla.neurons.neuron_settings.NeuronSettings</span></a></em><a class="headerlink" href="#narla.multi_agent_network.LayerSettings.neuron_settings" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.multi_agent_network.LayerSettings.number_of_neurons_per_layer">
+<span class="sig-name descname"><span class="pre">number_of_neurons_per_layer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15</span></em><a class="headerlink" href="#narla.multi_agent_network.LayerSettings.number_of_neurons_per_layer" title="Permalink to this definition"></a></dt>
+<dd><p>Number of neurons per layer in the network (the last layer always has only one neuron)</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="multiagentnetwork">
 <h2>MultiAgentNetwork<a class="headerlink" href="#multiagentnetwork" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetwork">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">MultiAgentNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network_settings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network.html#MultiAgentNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A MultiAgentNetwork contains a list of Layers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Size of the observation which the MultiAgentNetwork will receive</p></li>
+<li><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of actions available to the MultiAgentNetwork</p></li>
+<li><p><strong>network_settings</strong> (<a class="reference internal" href="#narla.multi_agent_network.MultiAgentNetworkSettings" title="narla.multi_agent_network.multi_agent_network_settings.MultiAgentNetworkSettings"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiAgentNetworkSettings</span></code></a>) – Settings for the MultiAgentNetwork</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetwork.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network.html#MultiAgentNetwork.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork.act" title="Permalink to this definition"></a></dt>
+<dd><p>Take an action based on the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>observation</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>) – Observation from the MultiAgentNetwork environment</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetwork.distribute_to_layers">
+<span class="sig-name descname"><span class="pre">distribute_to_layers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network.html#MultiAgentNetwork.distribute_to_layers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork.distribute_to_layers" title="Permalink to this definition"></a></dt>
+<dd><p>Distribute data to the Layers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Key word arguments to be distributed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetwork.history">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">history</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="history.html#narla.history.History" title="narla.history.history.History"><span class="pre">narla.history.history.History</span></a></em><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork.history" title="Permalink to this definition"></a></dt>
+<dd><p>Access the History of the MultiAgentNetwork</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="history.html#narla.history.History" title="narla.history.history.History"><code class="xref py py-class docutils literal notranslate"><span class="pre">History</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetwork.layers">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">layers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#narla.multi_agent_network.Layer" title="narla.multi_agent_network.layer.Layer"><span class="pre">narla.multi_agent_network.layer.Layer</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork.layers" title="Permalink to this definition"></a></dt>
+<dd><p>Access the Layers of the MultiAgentNetwork</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#narla.multi_agent_network.Layer" title="narla.multi_agent_network.layer.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetwork.learn">
+<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network.html#MultiAgentNetwork.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork.learn" title="Permalink to this definition"></a></dt>
+<dd><p>Execute learning phase for Layers</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetwork.record">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network.html#MultiAgentNetwork.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetwork.record" title="Permalink to this definition"></a></dt>
+<dd><p>Record data into the MultiAgentNetwork’s History</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Key word arguments to be stored in the History</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="multiagentnetworksettings">
 <h2>MultiAgentNetworkSettings<a class="headerlink" href="#multiagentnetworksettings" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetworkSettings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">MultiAgentNetworkSettings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_settings=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward_types=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_layers=2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network_settings.html#MultiAgentNetworkSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetworkSettings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">narla.settings.base_settings.BaseSettings</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetworkSettings.layer_settings">
+<span class="sig-name descname"><span class="pre">layer_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#narla.multi_agent_network.LayerSettings" title="narla.multi_agent_network.layer_settings.LayerSettings"><span class="pre">narla.multi_agent_network.layer_settings.LayerSettings</span></a></em><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetworkSettings.layer_settings" title="Permalink to this definition"></a></dt>
+<dd><p>Settings for the Layers in the MultiAgentNetwork</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetworkSettings.number_of_layers">
+<span class="sig-name descname"><span class="pre">number_of_layers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetworkSettings.number_of_layers" title="Permalink to this definition"></a></dt>
+<dd><p>Total number of layers to use in the network</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetworkSettings.reward_types">
+<span class="sig-name descname"><span class="pre">reward_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="rewards.html#narla.rewards.RewardTypes" title="narla.rewards.reward_types.RewardTypes"><span class="pre">narla.rewards.reward_types.RewardTypes</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetworkSettings.reward_types" title="Permalink to this definition"></a></dt>
+<dd><p>Reward types to be used by the Neurons for learning</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

@@ -96,6 +96,51 @@
 <h1>narla.environments<a class="headerlink" href="#narla-environments" title="Permalink to this headline"></a></h1>
 <section id="actionspace">
 <h2>ActionSpace<a class="headerlink" href="#actionspace" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="narla.environments.ActionSpace">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.environments.</span></span><span class="sig-name descname"><span class="pre">ActionSpace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_actions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/action_space.html#ActionSpace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.ActionSpace" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>ActionSpace for the Environment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>number_of_actions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of available actions in the environment</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="narla.environments.ActionSpace.number_of_actions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_actions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#narla.environments.ActionSpace.number_of_actions" title="Permalink to this definition"></a></dt>
+<dd><p>Get the number of actions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.environments.ActionSpace.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/action_space.html#ActionSpace.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.ActionSpace.sample" title="Permalink to this definition"></a></dt>
+<dd><p>Sample an action from the Space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="narla.environments.ActionSpace.shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#narla.environments.ActionSpace.shape" title="Permalink to this definition"></a></dt>
+<dd><p>Shape of the ActionSpace</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="availableenvironments">
 <h2>AvailableEnvironments<a class="headerlink" href="#availableenvironments" title="Permalink to this headline"></a></h2>
@@ -123,11 +168,11 @@
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.environments.Environment.action_space">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">action_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">narla.environments.action_space.ActionSpace</span></em><a class="headerlink" href="#narla.environments.Environment.action_space" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">action_space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#narla.environments.ActionSpace" title="narla.environments.action_space.ActionSpace"><span class="pre">narla.environments.action_space.ActionSpace</span></a></em><a class="headerlink" href="#narla.environments.Environment.action_space" title="Permalink to this definition"></a></dt>
 <dd><p>Get the Environment’s ActionSpace</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ActionSpace</span></code></p>
+<dd class="field-odd"><p><a class="reference internal" href="#narla.environments.ActionSpace" title="narla.environments.action_space.ActionSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActionSpace</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
