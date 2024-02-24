@@ -16,6 +16,19 @@ Neuron
    :undoc-members:
    :show-inheritance:
 
+NeuronSettings
+--------------
+.. autoclass:: narla.neurons.NeuronSettings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+NeuronTypes
+-----------
+.. autoclass:: narla.neurons.NeuronTypes
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 actor_critic
 ------------
@@ -53,7 +66,7 @@ Neuron
    :show-inheritance:
 
 policy_gradient
-------
+---------------
 
 Network
 ~~~~~~~

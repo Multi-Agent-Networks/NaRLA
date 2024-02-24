@@ -10,7 +10,7 @@ import prettyprinter
 
 import narla
 from narla.settings.settings import Settings
-from narla.neurons.neuron_types import AvailableNeurons
+from narla.neurons.neuron_types import NeuronTypes
 from narla.rewards.reward_types import RewardTypes
 from narla.settings.base_settings import BaseSettings
 from narla.environments.available_environments import GymEnvironments
@@ -32,7 +32,7 @@ class RunnerSettings(BaseSettings):
     learning_rates: List[float] = (1e-4,)
     """Learning rates for the individual neuron networks"""
 
-    neuron_types: List[AvailableNeurons] = (AvailableNeurons.DEEP_Q, AvailableNeurons.ACTOR_CRITIC)
+    neuron_types: List[NeuronTypes] = (NeuronTypes.DEEP_Q, NeuronTypes.ACTOR_CRITIC)
     """What to of neuron to use in the network"""
 
     number_of_layers: List[int] = range(1, 10)

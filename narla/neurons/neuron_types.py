@@ -11,7 +11,7 @@ except:
 import narla
 
 
-class AvailableNeurons(enum.Enum):
+class NeuronTypes(enum.Enum):
     ACTOR_CRITIC = "actor_critic"
     DEEP_Q = "deep_q"
     POLICY_GRADIENT = "policy_gradient"
@@ -20,11 +20,11 @@ class AvailableNeurons(enum.Enum):
         """
         Convert Neuron Enum to class Type
         """
-        if self == AvailableNeurons.ACTOR_CRITIC:
+        if self == NeuronTypes.ACTOR_CRITIC:
             return narla.neurons.actor_critic.Neuron
-        elif self == AvailableNeurons.DEEP_Q:
+        elif self == NeuronTypes.DEEP_Q:
             return narla.neurons.deep_q.Neuron
-        elif self == AvailableNeurons.POLICY_GRADIENT:
+        elif self == NeuronTypes.POLICY_GRADIENT:
             return narla.neurons.policy_gradient.Neuron
 
     def __str__(self):
@@ -32,7 +32,7 @@ class AvailableNeurons(enum.Enum):
 
 
 ALL_NEURONS = Literal[
-    AvailableNeurons.ACTOR_CRITIC,
-    AvailableNeurons.DEEP_Q,
-    AvailableNeurons.POLICY_GRADIENT,
+    NeuronTypes.ACTOR_CRITIC,
+    NeuronTypes.DEEP_Q,
+    NeuronTypes.POLICY_GRADIENT,
 ]

@@ -1,9 +1,11 @@
 import gc
-import torch
-import narla
 import random
-import pandas as pd
 from typing import Dict, List
+
+import torch
+import pandas as pd
+
+import narla
 
 
 class History:
@@ -12,6 +14,7 @@ class History:
 
     :param storage_size: Max storage size
     """
+
     def __init__(self, storage_size: int = 10_000):
         self.storage_size = storage_size
 
@@ -44,9 +47,7 @@ class History:
                     self._history[key] = [None]
 
             elif key == narla.history.saved_data.OBSERVATION:
-                self.record(**{
-                    narla.history.saved_data.NEXT_OBSERVATION: value
-                })
+                self.record(**{narla.history.saved_data.NEXT_OBSERVATION: value})
 
             if key == narla.history.saved_data.NEXT_OBSERVATION:
                 self._history[narla.history.saved_data.NEXT_OBSERVATION][-1] = value
@@ -63,9 +64,7 @@ class History:
         sample = []
         for name in names:
             items = self.get(name)[-from_most_recent:]
-            sample.append(
-                random.Random(123).sample(items, sample_size)
-            )
+            sample.append(random.Random(123).sample(items, sample_size))
 
         return sample
 
@@ -78,13 +77,8 @@ class History:
         if len(keys) == 0:
             keys = sorted(self._history.keys())
 
-        data = {
-            key: self.get(key) for key in keys
-        }
-        data_frame = pd.DataFrame(
-            data=data,
-            columns=keys
-        )
+        data = {key: self.get(key) for key in keys}
+        data_frame = pd.DataFrame(data=data, columns=keys)
 
         return data_frame
 
