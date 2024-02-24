@@ -12,6 +12,7 @@ class Neuron(metaclass=abc.ABCMeta):
     :param observation_size: Size of the observation which the Neuron will receive
     :param number_of_actions: Number of actions available to the Neuron
     """
+
     def __init__(self, observation_size: int, number_of_actions: int, learning_rate: float):
         self.observation_size = observation_size
         self.number_of_actions = number_of_actions
