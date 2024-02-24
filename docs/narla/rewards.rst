@@ -9,6 +9,13 @@ ActiveNeurons
    :undoc-members:
    :show-inheritance:
 
+BiologicalReward
+----------------
+.. autoclass:: narla.rewards.BiologicalReward
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 LayerSparsity
 -------------
 .. autoclass:: narla.rewards.LayerSparsity
@@ -23,3 +30,9 @@ Reward
    :undoc-members:
    :show-inheritance:
 
+RewardTypes
+-----------
+.. autoclass:: narla.rewards.RewardTypes
+   :members:
+   :undoc-members:
+   :show-inheritance:
