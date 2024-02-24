@@ -3,12 +3,13 @@ from __future__ import annotations
 import copy
 import enum
 import dataclasses
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, Dict, Type, TypeVar
 
 import tyro
-import caml_core as core
 from dacite import from_dict
 from typing_extensions import Self
+
+import narla
 
 AnySettings = TypeVar("AnySettings", bound="Settings")
 
@@ -68,7 +69,7 @@ class BaseSettings:
         :raises TypeError: If the loaded type does not match the class type
         :returns: Settings
         """
-        settings = core.io.load_yaml(yaml_file)
+        settings = narla.io.load_yaml(yaml_file)
         # Treat dict objects as Settings objects
         if isinstance(settings, dict):
             settings = from_dict(data_class=cls, data=settings)

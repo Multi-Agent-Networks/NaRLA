@@ -11,8 +11,8 @@ class RewardTypes(str, enum.Enum):
     LAYER_SPARSITY = "layer_sparsity"
     TASK_REWARD = "task_reward"
 
-    @property
-    def biological_reward_types(self) -> List[RewardTypes]:
+    @staticmethod
+    def biological_reward_types() -> List[RewardTypes]:
         """
         Get the RewardTypes that are biological
         """
