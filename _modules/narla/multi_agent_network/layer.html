@@ -196,12 +196,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_output</span>
 
-<div class="viewcode-block" id="Layer.learn"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.Layer.learn">[docs]</a>    <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Layer.learn"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.Layer.learn">[docs]</a>    <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">reward_types</span><span class="p">:</span> <span class="n">narla</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">RewardTypes</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute learning phase for Neurons</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">neuron</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neurons</span><span class="p">:</span>
-            <span class="n">neuron</span><span class="o">.</span><span class="n">learn</span><span class="p">()</span></div>
+            <span class="n">neuron</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="o">*</span><span class="n">reward_types</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">neurons</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">neurons</span><span class="o">.</span><span class="n">Neuron</span><span class="p">]:</span>

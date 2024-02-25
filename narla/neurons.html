@@ -183,8 +183,13 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.Neuron.learn">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron.learn" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reward_types</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.Neuron.learn" title="Permalink to this definition"></a></dt>
 <dd><p>Update the Neuron’s internal Network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>reward_types</strong> (<a class="reference internal" href="rewards.html#narla.rewards.RewardTypes" title="narla.rewards.reward_types.RewardTypes"><code class="xref py py-class docutils literal notranslate"><span class="pre">RewardTypes</span></code></a>) – RewardTypes to be used for learning</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -290,7 +295,7 @@ registered hooks while the latter silently ignores them.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -335,7 +340,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.actor_critic.Neuron.get_returns">
-<span class="sig-name descname"><span class="pre">get_returns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron.get_returns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron.get_returns" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_returns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reward_types</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron.get_returns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron.get_returns" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
@@ -345,8 +350,13 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.actor_critic.Neuron.learn">
-<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron.learn" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reward_types</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/actor_critic/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.actor_critic.Neuron.learn" title="Permalink to this definition"></a></dt>
 <dd><p>Update the Neuron’s internal Network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>reward_types</strong> (<a class="reference internal" href="rewards.html#narla.rewards.RewardTypes" title="narla.rewards.reward_types.RewardTypes"><code class="xref py py-class docutils literal notranslate"><span class="pre">RewardTypes</span></code></a>) – RewardTypes to be used for learning</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -425,13 +435,18 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron.learn">
-<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.learn" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reward_types</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.learn" title="Permalink to this definition"></a></dt>
 <dd><p>Update the Neuron’s internal Network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>reward_types</strong> (<a class="reference internal" href="rewards.html#narla.rewards.RewardTypes" title="narla.rewards.reward_types.RewardTypes"><code class="xref py py-class docutils literal notranslate"><span class="pre">RewardTypes</span></code></a>) – RewardTypes to be used for learning</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.deep_q.Neuron.sample_history">
-<span class="sig-name descname"><span class="pre">sample_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.sample_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.sample_history" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sample_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reward_types</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/deep_q/neuron.html#Neuron.sample_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.deep_q.Neuron.sample_history" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code>, …]</p>
@@ -520,7 +535,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.policy_gradient.Neuron.get_returns">
-<span class="sig-name descname"><span class="pre">get_returns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/neuron.html#Neuron.get_returns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Neuron.get_returns" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_returns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reward_types</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/neuron.html#Neuron.get_returns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Neuron.get_returns" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
@@ -530,8 +545,13 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="narla.neurons.policy_gradient.Neuron.learn">
-<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Neuron.learn" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">learn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">reward_types</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/neurons/policy_gradient/neuron.html#Neuron.learn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.neurons.policy_gradient.Neuron.learn" title="Permalink to this definition"></a></dt>
 <dd><p>Update the Neuron’s internal Network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>reward_types</strong> (<a class="reference internal" href="rewards.html#narla.rewards.RewardTypes" title="narla.rewards.reward_types.RewardTypes"><code class="xref py py-class docutils literal notranslate"><span class="pre">RewardTypes</span></code></a>) – RewardTypes to be used for learning</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

@@ -188,6 +188,20 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.environments.Environment.has_been_solved">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_been_solved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episode_rewards</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/environment.html#Environment.has_been_solved"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.Environment.has_been_solved" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if the Environment has been solved based on historical rewards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>episode_rewards</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – List of past of rewards</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.environments.Environment.observation_size">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">observation_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#narla.environments.Environment.observation_size" title="Permalink to this definition"></a></dt>
@@ -240,6 +254,28 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.environments.</span></span><span class="sig-name descname"><span class="pre">GymEnvironment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/gym_environment.html#GymEnvironment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.GymEnvironment" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#narla.environments.Environment" title="narla.environments.environment.Environment"><code class="xref py py-class docutils literal notranslate"><span class="pre">narla.environments.environment.Environment</span></code></a></p>
 <p>Wrapper on <a class="reference external" href="https://gymnasium.farama.org/">Gymnasium Environments</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference internal" href="#narla.environments.AvailableEnvironments" title="narla.environments.available_environments.AvailableEnvironments"><code class="xref py py-class docutils literal notranslate"><span class="pre">AvailableEnvironments</span></code></a>) – Name of the environment</p></li>
+<li><p><strong>render</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code> will visualize the environment</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="narla.environments.GymEnvironment.has_been_solved">
+<span class="sig-name descname"><span class="pre">has_been_solved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">episode_rewards</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/environments/gym_environment.html#GymEnvironment.has_been_solved"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.environments.GymEnvironment.has_been_solved" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if the Environment has been solved based on historical rewards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>episode_rewards</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – List of past of rewards</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.environments.GymEnvironment.observation_size">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">observation_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#narla.environments.GymEnvironment.observation_size" title="Permalink to this definition"></a></dt>

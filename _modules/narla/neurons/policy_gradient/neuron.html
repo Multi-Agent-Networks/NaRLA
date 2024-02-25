@@ -133,10 +133,10 @@
 
         <span class="k">return</span> <span class="n">action</span></div>
 
-<div class="viewcode-block" id="Neuron.learn"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.policy_gradient.Neuron.learn">[docs]</a>    <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Neuron.learn"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.policy_gradient.Neuron.learn">[docs]</a>    <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">reward_types</span><span class="p">:</span> <span class="n">narla</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">RewardTypes</span><span class="p">):</span>
         <span class="n">policy_losses</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="n">returns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_returns</span><span class="p">()</span>
+        <span class="n">returns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_returns</span><span class="p">(</span><span class="o">*</span><span class="n">reward_types</span><span class="p">)</span>
         <span class="n">log_probabilities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">narla</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">saved_data</span><span class="o">.</span><span class="n">LOG_PROBABILITY</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">log_probability</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">log_probabilities</span><span class="p">):</span>
@@ -155,8 +155,9 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Neuron.get_returns"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.policy_gradient.Neuron.get_returns">[docs]</a>    <span class="k">def</span> <span class="nf">get_returns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">rewards</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">narla</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">RewardTypes</span><span class="o">.</span><span class="n">TASK_REWARD</span><span class="p">)</span>
+<div class="viewcode-block" id="Neuron.get_returns"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.policy_gradient.Neuron.get_returns">[docs]</a>    <span class="k">def</span> <span class="nf">get_returns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">reward_types</span><span class="p">:</span> <span class="n">narla</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">RewardTypes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">rewards</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="o">*</span><span class="n">reward_types</span><span class="p">)</span>
+        <span class="n">rewards</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rewards</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="n">returns</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">return_value</span> <span class="o">=</span> <span class="mi">0</span>

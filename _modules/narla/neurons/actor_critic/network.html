@@ -85,6 +85,8 @@
   <h1>Source code for narla.neurons.actor_critic.network</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
 <span class="kn">import</span> <span class="nn">torch</span>
 
 <span class="kn">from</span> <span class="nn">narla.neurons.network</span> <span class="kn">import</span> <span class="n">Network</span> <span class="k">as</span> <span class="n">BaseNetwork</span>
@@ -99,6 +101,7 @@
             <span class="n">embedding_size</span><span class="o">=</span><span class="n">embedding_size</span><span class="p">,</span>
         <span class="p">)</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value_head</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">embedding_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_action_head</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">embedding_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
@@ -112,13 +115,15 @@
 
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Network.forward"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.actor_critic.Network.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="Network.forward"><a class="viewcode-back" href="../../../../narla/neurons.html#narla.neurons.actor_critic.Network.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
         <span class="n">backbone_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backbone</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="n">action_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action_head</span><span class="p">(</span><span class="n">backbone_embedding</span><span class="p">)</span>
         <span class="n">action_probability</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">action_embedding</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">action_probability</span></div></div>
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_head</span><span class="p">(</span><span class="n">backbone_embedding</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">action_probability</span><span class="p">,</span> <span class="n">values</span></div></div>
 </pre></div>
 
            </div>

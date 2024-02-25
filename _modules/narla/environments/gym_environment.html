@@ -85,16 +85,22 @@
   <h1>Source code for narla.environments.gym_environment</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">narla</span>
-<span class="kn">import</span> <span class="nn">gymnasium</span> <span class="k">as</span> <span class="nn">gym</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">gymnasium</span> <span class="k">as</span> <span class="nn">gym</span>
+
+<span class="kn">import</span> <span class="nn">narla</span>
 <span class="kn">from</span> <span class="nn">narla.environments</span> <span class="kn">import</span> <span class="n">Environment</span>
 
 
 <div class="viewcode-block" id="GymEnvironment"><a class="viewcode-back" href="../../../narla/environments.html#narla.environments.GymEnvironment">[docs]</a><span class="k">class</span> <span class="nc">GymEnvironment</span><span class="p">(</span><span class="n">Environment</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrapper on `Gymnasium Environments &lt;https://gymnasium.farama.org/&gt;`_</span>
+
+<span class="sd">    :param name: Name of the environment</span>
+<span class="sd">    :param render: If ``True`` will visualize the environment</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">narla</span><span class="o">.</span><span class="n">environments</span><span class="o">.</span><span class="n">AvailableEnvironments</span><span class="p">,</span> <span class="n">render</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
@@ -112,6 +118,12 @@
         <span class="n">gym_environment</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="n">render_mode</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">gym_environment</span>
+
+<div class="viewcode-block" id="GymEnvironment.has_been_solved"><a class="viewcode-back" href="../../../narla/environments.html#narla.environments.GymEnvironment.has_been_solved">[docs]</a>    <span class="k">def</span> <span class="nf">has_been_solved</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">episode_rewards</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">==</span> <span class="n">narla</span><span class="o">.</span><span class="n">environments</span><span class="o">.</span><span class="n">GymEnvironments</span><span class="o">.</span><span class="n">CART_POLE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">episode_rewards</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mi">300</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">observation_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
