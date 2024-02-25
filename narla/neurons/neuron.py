@@ -36,9 +36,11 @@ class Neuron(metaclass=abc.ABCMeta):
         return self._history
 
     @abc.abstractmethod
-    def learn(self):
+    def learn(self, *reward_types: narla.rewards.RewardTypes):
         """
         Update the Neuron's internal Network
+
+        :param reward_types: RewardTypes to be used for learning
         """
         pass
 

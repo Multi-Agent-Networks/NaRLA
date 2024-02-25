@@ -111,12 +111,12 @@ class Layer:
         """
         return self._layer_output
 
-    def learn(self):
+    def learn(self, *reward_types: narla.rewards.RewardTypes):
         """
         Execute learning phase for Neurons
         """
         for neuron in self._neurons:
-            neuron.learn()
+            neuron.learn(*reward_types)
 
     @property
     def neurons(self) -> List[narla.neurons.Neuron]:

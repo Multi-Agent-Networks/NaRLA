@@ -1,4 +1,5 @@
-import gc
+from __future__ import annotations
+
 import random
 from typing import Dict, List
 
@@ -26,13 +27,18 @@ class History:
         """
         self._history: Dict[str, List[torch.Tensor | float]] = {}
 
-    def get(self, key: str) -> list:
+    def get(self, key: str, stack: bool = False) -> list | torch.Tensor:
         """
         Access an element from the History
 
         :param key: Name of element to Access
+        :param stack: If ``True`` will stack the values into a Tensor
         """
-        return self._history.get(key)
+        tensors = self._history.get(key)
+        if stack:
+            tensors = torch.stack(tensors)
+
+        return tensors
 
     def record(self, **kwargs):
         """
@@ -56,10 +62,6 @@ class History:
             else:
                 self._history[key].append(value)
 
-            if len(self._history[key]) >= self.storage_size:
-                gc.collect()
-                torch.cuda.empty_cache()
-
     def sample(self, names: List[str], sample_size: int, from_most_recent: int = 10_000) -> List[List[torch.Tensor]]:
         sample = []
         for name in names:
@@ -67,6 +69,17 @@ class History:
             sample.append(random.Random(123).sample(items, sample_size))
 
         return sample
+
+    def stack(self, *keys, dim: int = -1) -> torch.Tensor:
+        """
+        Stack a series of Tensors
+
+        :param keys: Keys of the values to access from the History
+        :param dim: Dimension of the Tensors to stack on
+        """
+        lists = [self.get(key, stack=True).squeeze() for key in keys]
+
+        return torch.stack(lists, dim=dim)
 
     def to_data_frame(self, keys: List[str] = ()) -> pd.DataFrame:
         """

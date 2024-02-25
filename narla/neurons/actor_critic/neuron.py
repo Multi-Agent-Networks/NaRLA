@@ -47,11 +47,11 @@ class Neuron(BaseNeuron):
 
         return action
 
-    def learn(self):
+    def learn(self, *reward_types: narla.rewards.RewardTypes):
         value_losses = []
         policy_losses = []
 
-        returns = self.get_returns()
+        returns = self.get_returns(*reward_types)
         state_values = self._history.get(narla.history.saved_data.STATE_VALUE)
         log_probabilities = self._history.get(narla.history.saved_data.LOG_PROBABILITY)
 
@@ -62,7 +62,7 @@ class Neuron(BaseNeuron):
             policy_losses.append(-log_probability * advantage)
 
             # calculate critic (value) loss using L1 smooth loss
-            value_loss = torch.nn.functional.smooth_l1_loss(state_value, return_value)
+            value_loss = torch.nn.functional.smooth_l1_loss(state_value.squeeze(), return_value)
             value_losses.append(value_loss)
 
         # reset gradients
@@ -77,8 +77,9 @@ class Neuron(BaseNeuron):
 
         self._history.clear()
 
-    def get_returns(self) -> torch.Tensor:
-        rewards = self._history.get(narla.rewards.RewardTypes.TASK_REWARD)
+    def get_returns(self, *reward_types: narla.rewards.RewardTypes) -> torch.Tensor:
+        rewards = self._history.stack(*reward_types)
+        rewards = torch.sum(rewards, dim=-1)
 
         returns = []
         return_value = 0
