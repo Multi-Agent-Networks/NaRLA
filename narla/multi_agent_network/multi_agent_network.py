@@ -51,8 +51,9 @@ class MultiAgentNetwork:
     ) -> List[narla.multi_agent_network.Layer]:
         layers: List[narla.multi_agent_network.Layer] = []
         for layer_index in range(network_settings.number_of_layers):
+            is_last_layer = layer_index == network_settings.number_of_layers - 1
 
-            if layer_index == network_settings.number_of_layers - 1:
+            if is_last_layer:
                 # On the last layer there's just a single output neuron
                 last_layer_settings = network_settings.layer_settings.clone()
                 last_layer_settings.number_of_neurons_per_layer = 1
@@ -70,6 +71,13 @@ class MultiAgentNetwork:
                     layer_settings=network_settings.layer_settings,
                 )
                 observation_size = network_settings.layer_settings.number_of_neurons_per_layer
+
+            # The first and last Layers should be fully connected
+            layer.connectivity = narla.multi_agent_network.Layer.build_connectivity(
+                observation_size=layer.observation_size,
+                number_of_neurons=layer.number_of_neurons,
+                local_connectivity=False if layer_index == 0 or is_last_layer else network_settings.local_connectivity,
+            )
 
             layers.append(layer)
 
