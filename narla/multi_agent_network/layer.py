@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import List
 
+import numpy as np
 import torch
 
 import narla
@@ -26,6 +27,9 @@ class Layer:
         self.number_of_actions = number_of_actions
 
         self._layer_output: torch.Tensor | None = None
+        # Defines the connectivity of Neurons in this Layer to the previous layer
+        self.connectivity: torch.Tensor | None = None
+
         self._neurons: List[narla.neurons.Neuron] = self._build_layer(
             observation_size=observation_size,
             number_of_actions=number_of_actions,
@@ -39,13 +43,41 @@ class Layer:
         :param observation: Observation from the Layer's local environment
         """
         layer_output = torch.zeros((1, self.number_of_neurons), device=narla.experiment_settings.trial_settings.device)
+
+        # Map the input observation through the connectivity matrix
+        observation = observation.T * self.connectivity
+
         for index, neuron in enumerate(self._neurons):
-            action = neuron.act(observation)
+            neuron_input = observation[:, index].reshape(1, -1)
+            action = neuron.act(neuron_input)
             layer_output[0, index] = action
 
         self._layer_output = layer_output
 
         return layer_output
+
+    @staticmethod
+    def build_connectivity(observation_size: int, number_of_neurons: int, local_connectivity) -> torch.Tensor:
+        """
+        Build the connectivity matrix
+
+        :param observation_size: Number of inputs in the observation
+        :param number_of_neurons: Number of Neurons in the Layer
+        :param local_connectivity: If ``True`` the connectivity matrix will be a diagonal with offsets
+        """
+        if local_connectivity:
+            connectivity = np.zeros(shape=(observation_size, number_of_neurons), dtype=bool)
+            for offset in [-1, 0, 1]:
+                connectivity |= np.eye(observation_size, number_of_neurons, k=offset, dtype=bool)
+
+            connectivity = torch.tensor(connectivity.astype(int))
+
+        else:
+            connectivity = torch.ones(size=(observation_size, number_of_neurons))
+
+        connectivity = connectivity.to(device=narla.experiment_settings.trial_settings.device)
+
+        return connectivity
 
     @staticmethod
     def _build_layer(
@@ -88,6 +120,9 @@ class Layer:
 
     @property
     def neurons(self) -> List[narla.neurons.Neuron]:
+        """
+        Access the Neurons from the Layer
+        """
         return self._neurons
 
     @property
