@@ -5,7 +5,10 @@ settings = narla.settings.parse_args()
 
 
 # Create the Environment
-environment = narla.environments.GymEnvironment(name=settings.environment_settings.environment, render=settings.environment_settings.render)
+environment = narla.environments.GymEnvironment(
+    name=settings.environment_settings.environment,
+    render=settings.environment_settings.render,
+)
 observation = environment.reset()
 
 
@@ -26,6 +29,8 @@ for episode_number in range(1, settings.trial_settings.maximum_episodes + 1):
 
         # Execute the action in the environment
         observation, reward, terminated = environment.step(action)
+
+        network.compute_biological_rewards()
 
         # Distribute reward information to all layers
         network.distribute_to_layers(
@@ -53,6 +58,9 @@ for episode_number in range(1, settings.trial_settings.maximum_episodes + 1):
     if episode_number % settings.trial_settings.save_every:
         narla.io.save_history_as_data_frame(name="results", history=network.history)
 
+    episode_rewards = network.history.get(narla.history.saved_data.EPISODE_REWARD)
+    if environment.has_been_solved(episode_rewards):
+        break
 
 narla.io.save_history_as_data_frame(name="results", history=network.history)
 print("done", flush=True)
