@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Tuple
+import abc
+from typing import List, Tuple
 
 import numpy as np
 import torch
@@ -21,7 +22,7 @@ class Environment:
         self._render = render
 
         self._episode_reward = 0
-        self._action_space: narla.environments.ActionSpace = None
+        self._action_space: narla.environments.ActionSpace | None = None
 
     @property
     def action_space(self) -> narla.environments.ActionSpace:
@@ -48,6 +49,14 @@ class Environment:
         Get the total reward from the current episode
         """
         return self._episode_reward
+
+    @abc.abstractmethod
+    def has_been_solved(self, episode_rewards: List[float]) -> bool:
+        """
+        Checks if the Environment has been solved based on historical rewards
+
+        :param episode_rewards: List of past of rewards
+        """
 
     @property
     def observation_size(self) -> int:

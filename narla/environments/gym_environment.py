@@ -1,15 +1,21 @@
 from __future__ import annotations
 
-import torch
-import narla
-import gymnasium as gym
 from typing import Tuple
+
+import numpy as np
+import torch
+import gymnasium as gym
+
+import narla
 from narla.environments import Environment
 
 
 class GymEnvironment(Environment):
     """
     Wrapper on `Gymnasium Environments <https://gymnasium.farama.org/>`_
+
+    :param name: Name of the environment
+    :param render: If ``True`` will visualize the environment
     """
 
     def __init__(self, name: narla.environments.AvailableEnvironments, render: bool = False):
@@ -27,6 +33,12 @@ class GymEnvironment(Environment):
         gym_environment = gym.make(id=name.value, render_mode=render_mode)
 
         return gym_environment
+
+    def has_been_solved(self, episode_rewards: list) -> bool:
+        if self._name == narla.environments.GymEnvironments.CART_POLE:
+            return np.mean(episode_rewards[-100:]) > 300
+
+        return False
 
     @property
     def observation_size(self) -> int:
