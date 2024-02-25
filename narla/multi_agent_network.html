@@ -124,6 +124,24 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="narla.multi_agent_network.Layer.build_connectivity">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_connectivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_neurons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_connectivity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer.build_connectivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer.build_connectivity" title="Permalink to this definition"></a></dt>
+<dd><p>Build the connectivity matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of inputs in the observation</p></li>
+<li><p><strong>number_of_neurons</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of Neurons in the Layer</p></li>
+<li><p><strong>local_connectivity</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code> the connectivity matrix will be a diagonal with offsets</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="narla.multi_agent_network.Layer.distribute_to_neurons">
 <span class="sig-name descname"><span class="pre">distribute_to_neurons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/layer.html#Layer.distribute_to_neurons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.Layer.distribute_to_neurons" title="Permalink to this definition"></a></dt>
 <dd><p>Distribute data to the Neurons</p>
@@ -154,10 +172,10 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="narla.multi_agent_network.Layer.neurons">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">neurons</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="neurons.html#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><span class="pre">narla.neurons.neuron.Neuron</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#narla.multi_agent_network.Layer.neurons" title="Permalink to this definition"></a></dt>
-<dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="neurons.html#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">Neuron</span></code></a>]</p>
+<dd><p>Access the Neurons from the Layer</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>rtype</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="neurons.html#narla.neurons.Neuron" title="narla.neurons.neuron.Neuron"><code class="xref py py-class docutils literal notranslate"><span class="pre">Neuron</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -283,7 +301,7 @@
 <h2>MultiAgentNetworkSettings<a class="headerlink" href="#multiagentnetworksettings" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetworkSettings">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">MultiAgentNetworkSettings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_settings=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward_types=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_layers=2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network_settings.html#MultiAgentNetworkSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetworkSettings" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">narla.multi_agent_network.</span></span><span class="sig-name descname"><span class="pre">MultiAgentNetworkSettings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_settings=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_connectivity=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward_types=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_layers=3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/narla/multi_agent_network/multi_agent_network_settings.html#MultiAgentNetworkSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetworkSettings" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">narla.settings.base_settings.BaseSettings</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetworkSettings.layer_settings">
@@ -292,8 +310,14 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetworkSettings.local_connectivity">
+<span class="sig-name descname"><span class="pre">local_connectivity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetworkSettings.local_connectivity" title="Permalink to this definition"></a></dt>
+<dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code> Neurons will only be connected to nearby Neurons</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="narla.multi_agent_network.MultiAgentNetworkSettings.number_of_layers">
-<span class="sig-name descname"><span class="pre">number_of_layers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetworkSettings.number_of_layers" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">number_of_layers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#narla.multi_agent_network.MultiAgentNetworkSettings.number_of_layers" title="Permalink to this definition"></a></dt>
 <dd><p>Total number of layers to use in the network</p>
 </dd></dl>
 

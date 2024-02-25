@@ -86,8 +86,8 @@
 <span></span><span class="kn">import</span> <span class="nn">dataclasses</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">narla.settings.base_settings</span> <span class="kn">import</span> <span class="n">BaseSettings</span>
 <span class="kn">from</span> <span class="nn">narla.rewards.reward_types</span> <span class="kn">import</span> <span class="n">RewardTypes</span>
+<span class="kn">from</span> <span class="nn">narla.settings.base_settings</span> <span class="kn">import</span> <span class="n">BaseSettings</span>
 <span class="kn">from</span> <span class="nn">narla.multi_agent_network.layer_settings</span> <span class="kn">import</span> <span class="n">LayerSettings</span>
 
 
@@ -96,10 +96,13 @@
     <span class="n">layer_settings</span><span class="p">:</span> <span class="n">LayerSettings</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">LayerSettings</span><span class="p">())</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for the Layers in the MultiAgentNetwork&quot;&quot;&quot;</span>
 
+    <span class="n">local_connectivity</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If ``True`` Neurons will only be connected to nearby Neurons&quot;&quot;&quot;</span>
+
     <span class="n">reward_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RewardTypes</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="n">RewardTypes</span><span class="o">.</span><span class="n">TASK_REWARD</span><span class="p">])</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reward types to be used by the Neurons for learning&quot;&quot;&quot;</span>
 
-    <span class="n">number_of_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">number_of_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Total number of layers to use in the network&quot;&quot;&quot;</span></div>
 </pre></div>
 

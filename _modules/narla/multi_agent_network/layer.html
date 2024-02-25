@@ -87,6 +87,7 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 
 <span class="kn">import</span> <span class="nn">narla</span>
@@ -111,6 +112,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">number_of_actions</span> <span class="o">=</span> <span class="n">number_of_actions</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_layer_output</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Defines the connectivity of Neurons in this Layer to the previous layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connectivity</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_neurons</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">neurons</span><span class="o">.</span><span class="n">Neuron</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_layer</span><span class="p">(</span>
             <span class="n">observation_size</span><span class="o">=</span><span class="n">observation_size</span><span class="p">,</span>
             <span class="n">number_of_actions</span><span class="o">=</span><span class="n">number_of_actions</span><span class="p">,</span>
@@ -124,13 +128,41 @@
 <span class="sd">        :param observation: Observation from the Layer&#39;s local environment</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">layer_output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_neurons</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">narla</span><span class="o">.</span><span class="n">experiment_settings</span><span class="o">.</span><span class="n">trial_settings</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Map the input observation through the connectivity matrix</span>
+        <span class="n">observation</span> <span class="o">=</span> <span class="n">observation</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">connectivity</span>
+
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">neuron</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_neurons</span><span class="p">):</span>
-            <span class="n">action</span> <span class="o">=</span> <span class="n">neuron</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">observation</span><span class="p">)</span>
+            <span class="n">neuron_input</span> <span class="o">=</span> <span class="n">observation</span><span class="p">[:,</span> <span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">neuron</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">neuron_input</span><span class="p">)</span>
             <span class="n">layer_output</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_layer_output</span> <span class="o">=</span> <span class="n">layer_output</span>
 
         <span class="k">return</span> <span class="n">layer_output</span></div>
+
+<div class="viewcode-block" id="Layer.build_connectivity"><a class="viewcode-back" href="../../../narla/multi_agent_network.html#narla.multi_agent_network.Layer.build_connectivity">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">build_connectivity</span><span class="p">(</span><span class="n">observation_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">number_of_neurons</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">local_connectivity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the connectivity matrix</span>
+
+<span class="sd">        :param observation_size: Number of inputs in the observation</span>
+<span class="sd">        :param number_of_neurons: Number of Neurons in the Layer</span>
+<span class="sd">        :param local_connectivity: If ``True`` the connectivity matrix will be a diagonal with offsets</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">local_connectivity</span><span class="p">:</span>
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">observation_size</span><span class="p">,</span> <span class="n">number_of_neurons</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+                <span class="n">connectivity</span> <span class="o">|=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">observation_size</span><span class="p">,</span> <span class="n">number_of_neurons</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">observation_size</span><span class="p">,</span> <span class="n">number_of_neurons</span><span class="p">))</span>
+
+        <span class="n">connectivity</span> <span class="o">=</span> <span class="n">connectivity</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">narla</span><span class="o">.</span><span class="n">experiment_settings</span><span class="o">.</span><span class="n">trial_settings</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">connectivity</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_build_layer</span><span class="p">(</span>
@@ -173,6 +205,9 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">neurons</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">neurons</span><span class="o">.</span><span class="n">Neuron</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Access the Neurons from the Layer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neurons</span>
 
     <span class="nd">@property</span>

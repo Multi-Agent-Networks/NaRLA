@@ -136,8 +136,9 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="p">]:</span>
         <span class="n">layers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">layer_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">network_settings</span><span class="o">.</span><span class="n">number_of_layers</span><span class="p">):</span>
+            <span class="n">is_last_layer</span> <span class="o">=</span> <span class="n">layer_index</span> <span class="o">==</span> <span class="n">network_settings</span><span class="o">.</span><span class="n">number_of_layers</span> <span class="o">-</span> <span class="mi">1</span>
 
-            <span class="k">if</span> <span class="n">layer_index</span> <span class="o">==</span> <span class="n">network_settings</span><span class="o">.</span><span class="n">number_of_layers</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_last_layer</span><span class="p">:</span>
                 <span class="c1"># On the last layer there&#39;s just a single output neuron</span>
                 <span class="n">last_layer_settings</span> <span class="o">=</span> <span class="n">network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
                 <span class="n">last_layer_settings</span><span class="o">.</span><span class="n">number_of_neurons_per_layer</span> <span class="o">=</span> <span class="mi">1</span>
@@ -155,6 +156,13 @@
                     <span class="n">layer_settings</span><span class="o">=</span><span class="n">network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">observation_size</span> <span class="o">=</span> <span class="n">network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="o">.</span><span class="n">number_of_neurons_per_layer</span>
+
+            <span class="c1"># The first and last Layers should be fully connected</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">connectivity</span> <span class="o">=</span> <span class="n">narla</span><span class="o">.</span><span class="n">multi_agent_network</span><span class="o">.</span><span class="n">Layer</span><span class="o">.</span><span class="n">build_connectivity</span><span class="p">(</span>
+                <span class="n">observation_size</span><span class="o">=</span><span class="n">layer</span><span class="o">.</span><span class="n">observation_size</span><span class="p">,</span>
+                <span class="n">number_of_neurons</span><span class="o">=</span><span class="n">layer</span><span class="o">.</span><span class="n">number_of_neurons</span><span class="p">,</span>
+                <span class="n">local_connectivity</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="n">layer_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">is_last_layer</span> <span class="k">else</span> <span class="n">network_settings</span><span class="o">.</span><span class="n">local_connectivity</span><span class="p">,</span>
+            <span class="p">)</span>
 
             <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
