@@ -83,6 +83,21 @@ class MultiAgentNetwork:
 
         return layers
 
+    def compute_biological_rewards(self):
+        """
+        Compute BiologicalRewards and distribute to the Neurons
+        """
+        for layer_index, layer in enumerate(self._layers):
+            for reward_type in self._network_settings.reward_types:
+                if reward_type not in narla.rewards.RewardTypes.biological_reward_types():
+                    continue
+
+                reward = reward_type.to_reward()
+                rewards = reward.compute(network=self, layer_index=layer_index)
+
+                for neuron_index, neuron in enumerate(layer.neurons):
+                    neuron.record(**{reward_type: rewards[0, neuron_index]})
+
     def distribute_to_layers(self, **kwargs):
         """
         Distribute data to the Layers
@@ -111,7 +126,7 @@ class MultiAgentNetwork:
         Execute learning phase for Layers
         """
         for layer in self._layers:
-            layer.learn()
+            layer.learn(*self._network_settings.reward_types)
 
     def record(self, **kwargs):
         """

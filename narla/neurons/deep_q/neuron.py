@@ -68,11 +68,11 @@ class Neuron(BaseNeuron):
 
         return action
 
-    def learn(self):
+    def learn(self, *reward_types: narla.rewards.RewardTypes):
         if len(self._history) < narla.experiment_settings.trial_settings.batch_size:
             return
 
-        state_batch, action_batch, reward_batch, non_final_next_states, non_final_mask = self.sample_history()
+        state_batch, action_batch, reward_batch, non_final_next_states, non_final_mask = self.sample_history(*reward_types)
 
         # Compute Q(s_t, a) - the model computes Q(s_t), then we select the columns of actions taken. These are the
         # actions which would've been taken for each batch state according to policy_net
@@ -108,21 +108,25 @@ class Neuron(BaseNeuron):
         # Update the weights of the target network
         self.update_target_network()
 
-    def sample_history(self) -> Tuple[torch.Tensor, ...]:
-        observations, actions, rewards, next_observations, terminated = self._history.sample(
+    def sample_history(self, *reward_types: narla.rewards.RewardTypes) -> Tuple[torch.Tensor, ...]:
+        *rewards, observations, actions, next_observations, terminated = self._history.sample(
             names=[
+                *reward_types,
                 narla.history.saved_data.OBSERVATION,
                 narla.history.saved_data.ACTION,
-                narla.rewards.RewardTypes.TASK_REWARD,
                 narla.history.saved_data.NEXT_OBSERVATION,
                 narla.history.saved_data.TERMINATED,
             ],
             sample_size=narla.experiment_settings.trial_settings.batch_size,
         )
 
+        # Combine the all the rewards into a Tensor with shape (batch_size, number_of_rewards)
+        rewards = torch.stack([torch.stack(reward_type).squeeze() for reward_type in rewards], dim=-1)
+        # Then sum the rewards along the samples
+        reward_batch = torch.sum(rewards, dim=-1)
+
         observation_batch = torch.cat(observations)
         action_batch = torch.cat(actions)
-        reward_batch = torch.cat(rewards)
 
         non_final_next_states = torch.cat([observation for observation, done in zip(next_observations, terminated) if not done])
         non_final_mask = torch.tensor(

@@ -48,10 +48,10 @@ class Neuron(BaseNeuron):
 
         return action
 
-    def learn(self):
+    def learn(self, *reward_types: narla.rewards.RewardTypes):
         policy_losses = []
 
-        returns = self.get_returns()
+        returns = self.get_returns(*reward_types)
         log_probabilities = self._history.get(narla.history.saved_data.LOG_PROBABILITY)
 
         for return_value, log_probability in zip(returns, log_probabilities):
@@ -70,8 +70,9 @@ class Neuron(BaseNeuron):
 
         self._history.clear()
 
-    def get_returns(self) -> torch.Tensor:
-        rewards = self._history.get(narla.rewards.RewardTypes.TASK_REWARD)
+    def get_returns(self, *reward_types: narla.rewards.RewardTypes) -> torch.Tensor:
+        rewards = self._history.stack(*reward_types)
+        rewards = torch.sum(rewards, dim=-1)
 
         returns = []
         return_value = 0
