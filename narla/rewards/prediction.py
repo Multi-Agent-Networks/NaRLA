@@ -25,12 +25,7 @@ class Prediction(BiologicalReward):
         # Map the output from current_layer through next_layer's connectivity
         # Each column (e.g. next_layer_input[:, i]) will correspond to a Neuron's input in next_layer
         next_layer_input = current_layer.layer_output.T * next_layer.connectivity
-        print(next_layer_input)
-        print(next_layer_output)
-        print(next_layer_input * next_layer_output)
         # Sum over columns to get per reward in current_layer
         prediction_reward = torch.sum(next_layer_input * next_layer_output, dim=-1)
-        print(prediction_reward)
-        input(">>>")
 
         return prediction_reward[None]
