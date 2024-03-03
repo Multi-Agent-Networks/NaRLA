@@ -98,6 +98,7 @@ class BaseSettings:
         """
         arguments = []
         for field in dataclasses.fields(self):
+            extra_prefix = ""
             if not hasattr(self, field.name):
                 continue
 
@@ -116,11 +117,16 @@ class BaseSettings:
                 value = value.name
 
             elif type(value) is bool:
-                if value is False:
+                # If the default matches the value we can skip it
+                if field.default == value:
                     continue
-                else:
-                    value = ""
 
-            arguments.append(f"--{prefix}{field.name} {value}")
+                # If the default is True and the value is False we need a "no-" prefix
+                if (field.default, value) == (True, False):
+                    extra_prefix = "no-"
+
+                value = ""
+
+            arguments.append(f"--{prefix}{extra_prefix}{field.name} {value}")
 
         return " ".join(arguments)
