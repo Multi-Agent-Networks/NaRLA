@@ -45,6 +45,7 @@ class Layer:
         layer_output = torch.zeros((1, self.number_of_neurons), device=narla.experiment_settings.trial_settings.device)
 
         # Map the input observation through the connectivity matrix
+        # Each column (e.g. observation[:, index]) will correspond to a Neuron's input in this layer
         observation = observation.T * self.connectivity
 
         for index, neuron in enumerate(self._neurons):
@@ -60,6 +61,9 @@ class Layer:
     def build_connectivity(observation_size: int, number_of_neurons: int, local_connectivity) -> torch.Tensor:
         """
         Build the connectivity matrix
+
+        - The rows of the matrix are the outputs from the previous layer
+        - The columns of the matrix are the neurons in the current layer
 
         :param observation_size: Number of inputs in the observation
         :param number_of_neurons: Number of Neurons in the Layer
