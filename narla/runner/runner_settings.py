@@ -32,7 +32,10 @@ class RunnerSettings(BaseSettings):
     learning_rates: List[float] = (1e-4,)
     """Learning rates for the individual neuron networks"""
 
-    neuron_types: List[NeuronTypes] = (NeuronTypes.DEEP_Q, NeuronTypes.ACTOR_CRITIC)
+    local_connectivity: List[bool] = (False, True)
+    """If True Network will use local connectivity"""
+
+    neuron_types: List[NeuronTypes] = (NeuronTypes.POLICY_GRADIENT, NeuronTypes.DEEP_Q, NeuronTypes.ACTOR_CRITIC)
     """What to of neuron to use in the network"""
 
     number_of_layers: List[int] = range(1, 10)
@@ -56,6 +59,8 @@ class RunnerSettings(BaseSettings):
         all_settings = []
         meta_settings = itertools.product(
             self.environments,
+            self.learning_rates,
+            self.local_connectivity,
             self.neuron_types,
             self.number_of_layers,
             self.number_of_neurons_per_layer,
@@ -67,10 +72,12 @@ class RunnerSettings(BaseSettings):
             settings = self.settings.clone()
 
             settings.environment_settings.environment = meta_setting[0]
-            settings.multi_agent_network_settings.layer_settings.neuron_settings.neuron_type = meta_setting[1]
-            settings.multi_agent_network_settings.number_of_layers = meta_setting[2]
-            settings.multi_agent_network_settings.layer_settings.number_of_neurons_per_layer = meta_setting[3]
-            settings.multi_agent_network_settings.reward_types = meta_setting[4]
+            settings.multi_agent_network_settings.layer_settings.neuron_settings.learning_rate = meta_setting[1]
+            settings.multi_agent_network_settings.local_connectivity = meta_setting[2]
+            settings.multi_agent_network_settings.layer_settings.neuron_settings.neuron_type = meta_setting[3]
+            settings.multi_agent_network_settings.number_of_layers = meta_setting[4]
+            settings.multi_agent_network_settings.layer_settings.number_of_neurons_per_layer = meta_setting[5]
+            settings.multi_agent_network_settings.reward_types = meta_setting[6]
 
             all_settings.append(settings)
 
