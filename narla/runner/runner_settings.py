@@ -42,7 +42,10 @@ class RunnerSettings(BaseSettings):
     """Number of neurons per layer in the network (the last layer always has only one neuron)"""
 
     reward_types: list = dataclasses.field(
-        default_factory=lambda: [[RewardTypes.TASK_REWARD]],
+        default_factory=lambda: [
+            [RewardTypes.TASK_REWARD],
+            [RewardTypes.TASK_REWARD, *RewardTypes.biological_reward_types()],
+        ],
     )
     """Type of reward to use during training"""
 
