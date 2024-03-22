@@ -46,6 +46,31 @@ class BaseSettings:
 
         return dictionary
 
+    def as_flat_dictionary(self, delimiter: str = "/") -> Dict[str, Any]:
+        """Convert the Settings object to a dictionary and then flatten it so all keys are at the same level.
+
+        :param delimiter: Delimiter to separate keys by
+        :returns: Settings as a flat dictionary
+        """
+        dictionary = self.as_dictionary()
+
+        while any(isinstance(value, dict) for value in dictionary.values()):
+            to_add: Dict[str, Any] = {}
+            keys_to_remove: List[str] = []
+            for key, value in dictionary.items():
+                if isinstance(value, dict):
+                    for sub_key, sub_value in value.items():
+                        assert isinstance(sub_key, str), f"Dict subkey {sub_key} is not a string!"
+                        to_add[delimiter.join([key, sub_key])] = sub_value
+
+                    keys_to_remove.append(key)
+
+            dictionary.update(to_add)
+            for key in keys_to_remove:
+                del dictionary[key]
+
+        return dictionary
+
     def clone(self) -> Self:
         """
         Create a deepcopy of the Settings

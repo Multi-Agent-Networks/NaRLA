@@ -38,7 +38,7 @@ class RunnerSettings(BaseSettings):
     neuron_types: List[NeuronTypes] = (NeuronTypes.POLICY_GRADIENT, NeuronTypes.DEEP_Q, NeuronTypes.ACTOR_CRITIC)
     """What to of neuron to use in the network"""
 
-    number_of_layers: List[int] = range(1, 10)
+    number_of_layers: List[int] = range(2, 10)
     """Total number of layers to use in the network"""
 
     number_of_neurons_per_layer: List[int] = (15,)
