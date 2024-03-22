@@ -8,6 +8,7 @@ import narla
 
 class RewardTypes(str, enum.Enum):
     ACTIVE_NEURONS = "active_neurons"
+    ACTIVITY_TRACE = "activity_trace"
     LAYER_SPARSITY = "layer_sparsity"
     PREDICTION = "prediction"
     TASK_REWARD = "task_reward"
@@ -17,7 +18,7 @@ class RewardTypes(str, enum.Enum):
         """
         Get the RewardTypes that are biological
         """
-        return [RewardTypes.ACTIVE_NEURONS, RewardTypes.LAYER_SPARSITY, RewardTypes.PREDICTION]
+        return [RewardTypes.ACTIVE_NEURONS, RewardTypes.LAYER_SPARSITY, RewardTypes.PREDICTION, RewardTypes.ACTIVITY_TRACE]
 
     def to_reward(self) -> narla.rewards.Reward:
         """
@@ -29,5 +30,7 @@ class RewardTypes(str, enum.Enum):
             return narla.rewards.LayerSparsity()
         elif self == RewardTypes.PREDICTION:
             return narla.rewards.Prediction()
+        elif self == RewardTypes.ACTIVITY_TRACE:
+            return narla.rewards.ActivityTrace()
 
         raise NotImplementedError(f"Reward not implemented for type: {self}")
