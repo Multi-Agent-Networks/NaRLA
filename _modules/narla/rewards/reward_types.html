@@ -94,6 +94,7 @@
 <div class="viewcode-block" id="RewardTypes"><a class="viewcode-back" href="../../../narla/rewards.html#narla.rewards.RewardTypes">[docs]</a><span class="k">class</span> <span class="nc">RewardTypes</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">ACTIVE_NEURONS</span> <span class="o">=</span> <span class="s2">&quot;active_neurons&quot;</span>
     <span class="n">LAYER_SPARSITY</span> <span class="o">=</span> <span class="s2">&quot;layer_sparsity&quot;</span>
+    <span class="n">PREDICTION</span> <span class="o">=</span> <span class="s2">&quot;prediction&quot;</span>
     <span class="n">TASK_REWARD</span> <span class="o">=</span> <span class="s2">&quot;task_reward&quot;</span>
 
 <div class="viewcode-block" id="RewardTypes.biological_reward_types"><a class="viewcode-back" href="../../../narla/rewards.html#narla.rewards.RewardTypes.biological_reward_types">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -101,7 +102,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the RewardTypes that are biological</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">RewardTypes</span><span class="o">.</span><span class="n">ACTIVE_NEURONS</span><span class="p">,</span> <span class="n">RewardTypes</span><span class="o">.</span><span class="n">LAYER_SPARSITY</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">RewardTypes</span><span class="o">.</span><span class="n">ACTIVE_NEURONS</span><span class="p">,</span> <span class="n">RewardTypes</span><span class="o">.</span><span class="n">LAYER_SPARSITY</span><span class="p">,</span> <span class="n">RewardTypes</span><span class="o">.</span><span class="n">PREDICTION</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="RewardTypes.to_reward"><a class="viewcode-back" href="../../../narla/rewards.html#narla.rewards.RewardTypes.to_reward">[docs]</a>    <span class="k">def</span> <span class="nf">to_reward</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">narla</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">Reward</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -111,6 +112,8 @@
             <span class="k">return</span> <span class="n">narla</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">ActiveNeurons</span><span class="p">()</span>
         <span class="k">elif</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">RewardTypes</span><span class="o">.</span><span class="n">LAYER_SPARSITY</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">narla</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">LayerSparsity</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">RewardTypes</span><span class="o">.</span><span class="n">PREDICTION</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">narla</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">Prediction</span><span class="p">()</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reward not implemented for type: </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 </pre></div>

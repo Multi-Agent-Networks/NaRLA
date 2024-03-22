@@ -117,17 +117,23 @@
     <span class="n">learning_rates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1e-4</span><span class="p">,)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Learning rates for the individual neuron networks&quot;&quot;&quot;</span>
 
-    <span class="n">neuron_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NeuronTypes</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">NeuronTypes</span><span class="o">.</span><span class="n">DEEP_Q</span><span class="p">,</span> <span class="n">NeuronTypes</span><span class="o">.</span><span class="n">ACTOR_CRITIC</span><span class="p">)</span>
+    <span class="n">local_connectivity</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If True Network will use local connectivity&quot;&quot;&quot;</span>
+
+    <span class="n">neuron_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NeuronTypes</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">NeuronTypes</span><span class="o">.</span><span class="n">POLICY_GRADIENT</span><span class="p">,</span> <span class="n">NeuronTypes</span><span class="o">.</span><span class="n">DEEP_Q</span><span class="p">,</span> <span class="n">NeuronTypes</span><span class="o">.</span><span class="n">ACTOR_CRITIC</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;What to of neuron to use in the network&quot;&quot;&quot;</span>
 
-    <span class="n">number_of_layers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">number_of_layers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Total number of layers to use in the network&quot;&quot;&quot;</span>
 
     <span class="n">number_of_neurons_per_layer</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Number of neurons per layer in the network (the last layer always has only one neuron)&quot;&quot;&quot;</span>
 
     <span class="n">reward_types</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">field</span><span class="p">(</span>
-        <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[[</span><span class="n">RewardTypes</span><span class="o">.</span><span class="n">TASK_REWARD</span><span class="p">]],</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">[</span><span class="n">RewardTypes</span><span class="o">.</span><span class="n">TASK_REWARD</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">RewardTypes</span><span class="o">.</span><span class="n">TASK_REWARD</span><span class="p">,</span> <span class="o">*</span><span class="n">RewardTypes</span><span class="o">.</span><span class="n">biological_reward_types</span><span class="p">()],</span>
+        <span class="p">],</span>
     <span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Type of reward to use during training&quot;&quot;&quot;</span>
 
@@ -138,6 +144,8 @@
         <span class="n">all_settings</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">meta_settings</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">environments</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">learning_rates</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">local_connectivity</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">neuron_types</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">number_of_layers</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">number_of_neurons_per_layer</span><span class="p">,</span>
@@ -149,10 +157,12 @@
             <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 
             <span class="n">settings</span><span class="o">.</span><span class="n">environment_settings</span><span class="o">.</span><span class="n">environment</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="o">.</span><span class="n">neuron_settings</span><span class="o">.</span><span class="n">neuron_type</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">number_of_layers</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="o">.</span><span class="n">number_of_neurons_per_layer</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">reward_types</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="o">.</span><span class="n">neuron_settings</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">local_connectivity</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="o">.</span><span class="n">neuron_settings</span><span class="o">.</span><span class="n">neuron_type</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">number_of_layers</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">layer_settings</span><span class="o">.</span><span class="n">number_of_neurons_per_layer</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">multi_agent_network_settings</span><span class="o">.</span><span class="n">reward_types</span> <span class="o">=</span> <span class="n">meta_setting</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
 
             <span class="n">all_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
 
